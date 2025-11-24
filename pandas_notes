@@ -1,0 +1,437 @@
+Pandas 从入门到实战：实操化官方文档整理（文科自学友好版）
+
+一、基础准备：环境搭建与核心概念（1-2小时）
+1. 环境搭建（5分钟搞定）
+无需复杂配置，直接用pip安装，已包含NumPy依赖：
+安装Pandas（若已安装忽略）
+pip install pandas
+安装Excel读写依赖（处理Excel文件必装）
+pip install openpyxl xlrd
+验证安装：运行无报错则成功
+import pandas as pd print(pd.version)# 输出版本号（如2.0.3）即正常  
+
+1. 核心数据结构（Pandas的“积木”）
+
+Pandas核心只有2种结构，所有操作围绕它们展开，先掌握创建和基础属性：
+
+（1）Series：一维“带标签的列表”
+
+python
+import pandas as pd import numpy as np
+
+1. 基础创建（数据+自定义标签）
+
+s1 = pd.Series(data=[10, 20, 30, 40], index=["A", "B", "C", "D"])
+
+2. 从字典创建（键=标签，值=数据）
+
+s2 = pd.Series(data={"北京": 2154, "上海": 2487, "广州": 1868})
+
+3. 常用属性（快速了解数据）
+
+print(s1.index)  # 查看标签：Index(['A', 'B', 'C', 'D'], dtype='object') print(s1.values)# 查看数据：[10 20 30 40] print(s1.dtype)# 查看数据类型：int64 print(s1.head(2))#查看前2个数据（避免数据太多刷屏）  
+
+（2）DataFrame：二维“带标签的表格”（实战90%用它）
+
+python    
+
+1. 从字典创建（最常用，键=列名，值=列数据）
+
+data = { "城市": ["北京", "上海", "广州", "深圳"], "人口(万)": [2154, 2487, 1868, 1756], "GDP(万亿)": [4.03, 4.32, 2.82, 3.24] } df= pd.DataFrame(data)
+
+2. 常用属性（快速摸清表格结构）
+
+print(df.shape)    # 表格大小：(4, 3) → 4行3列 
+print(df.columns)# 列名：Index(['城市', '人口(万)', 'GDP(万亿)'], dtype='object') 
+print(df.index)# 行标签：
+RangeIndex(start=0, stop=4, step=1)（默认0开始的数字）
+ print(df.info())# 数据概览（是否有缺失、数据类型）
+print(df.head(3))# 查看前3行（实战中优先用它看数据）  
+
+二、实战第一步：数据读写（处理文件必学，1-2小时）
+
+Pandas能直接读Excel/CSV/JSON/SQL，重点掌握前3种（日常90%场景），代码带“防坑参数”：
+
+1. 读取文件（核心： read_xxx 系列函数）
+
+python
+import pandas as pd
+
+1. 读取CSV文件（最通用，注意编码问题）
+
+encoding='utf-8'：解决中文乱码；header=0：第一行作为列名
+
+df_csv = pd.read_csv( "数据文件路径.csv",  encoding="utf-8",  # 若乱码换"gbk"（Windows常见） header=0,          # 无列名填None
+ usecols=["列1", "列3"]  # 只读需要的列（减少内存） )
+
+2. 读取Excel文件（多工作表、指定sheet）
+
+方法1：读单个sheet
+
+df_excel1 = pd.read_excel( "数据文件路径.xlsx", sheet_name="Sheet1",  # 指定工作表名 parse_dates=["日期列"]  # 自动把列转成日期格式（不用手动处理） )
+
+方法2：读多个sheet（批量处理）
+
+with pd.ExcelFile("数据文件路径.xlsx") as xls: df_excel2 = pd.read_excel(xls, "Sheet2")  # 第二个sheet df_excel3 = pd.read_excel(xls, "Sheet3")  # 第三个sheet
+
+3. 读取JSON文件（Web数据常用）
+
+df_json = pd.read_json("数据文件路径.json")
+
+验证读取：显示前5行
+
+print(df_csv.head())  
+
+1. 写入文件（分析结果导出）
+
+python    
+
+1. 写入CSV（index=False：不导出行号，避免多余列）
+
+df_csv.to_csv("输出结果.csv", encoding="utf-8", index=False)
+
+2. 写入Excel（可指定sheet名，支持多表写入）
+
+with pd.ExcelWriter("输出结果.xlsx") as writer: df_excel1.to_excel(writer, sheet_name="城市数据", index=False) df_excel2.to_excel(writer, sheet_name="销售数据", index=False)
+	
+3. 写入JSON
+
+df_json.to_json("输出结果.json", force_ascii=False)  # force_ascii=False：显示中文  
+
+三、数据选择与索引（挑数据的“手术刀”，2-3小时）
+核心：从表格中精准挑出需要的行/列/数据，避免“全表操作”浪费效率，分3类场景：
+1. 选列（最简单：按列名）
+python
+1. 选1列（返回Series）
+df["城市"]  # 或 df.城市（列名无空格时可用）
+2. 选多列（返回DataFrame，列名用列表）
+df[["城市", "GDP(万亿)"]]  
+1. 选行（按行号/条件）
+python
+import pandas as pd
+先创建示例数据
+data = { "城市": ["北京", "上海", "广州", "深圳"], "人口(万)": [2154, 2487, 1868, 1756], "GDP(万亿)": [4.03, 4.32, 2.82, 3.24] } df= pd.DataFrame(data)
+
+1. 按行号选（iloc：行号索引，左闭右开）
+
+df.iloc[0]       # 第0行（第一行） df.iloc[1:3]# 第1-2行（不包含第3行） df.iloc[[0, 3]]# 第0行和第3行（离散行）
+2. 按条件选（实战最常用，返回符合条件的行）
+条件1：GDP大于3万亿
+df[df["GDP(万亿)"] > 3]
+条件2：人口大于2000万 且 GDP大于4万亿（&：且，|：或，括号必加）
+df[(df["人口(万)"] > 2000) & (df["GDP(万亿)"] > 4)]
+条件3：城市是“北京”或“深圳”（isin：包含在列表中）
+
+df[df["城市"].isin(["北京", "深圳"])]  
+
+1. 行列同时选（精准定位）
+方法1：iloc（行号+列号）
+df.iloc[1:3, [0, 2]]  # 第1-2行，第0列（城市）和第2列（GDP）
+方法2：loc（行标签+列名，更直观）
+先给行加自定义标签
+df_loc = df.set_index("城市")  # 把“城市”列设为行标签
+选“上海”和“广州”的“人口”和“GDP”
+df_loc.loc[["上海", "广州"], ["人口(万)", "GDP(万亿)"]]  
+四、数据清洗（Pandas核心价值，3-4小时）
+实战中数据90%是“脏数据”（缺失、重复、异常），这部分是“刚需技能”，按场景拆步骤：
+1. 处理缺失值（NaN）
+import pandas as pd import numpy as np
+1. 创建含缺失值的示例数据
+df = pd.DataFrame({ "A": [1, 2, np.nan, 4], "B": [5, np.nan, np.nan, 8], "C": [10, 20, 30, 40] })
+2. 查看缺失值（先摸清情况）
+print(df.isnull().sum())  # 按列统计缺失值数量
+输出：A    1, B    2, C    0 → 知道A列缺1个，B列缺2个
+3. 处理方案（2选1，根据场景）
+方案1：填充缺失值（缺的少用，保留数据）
+df_filled = df.fillna({ "A": df["A"].mean(),  # A列用平均值填 "B": df["B"].median() # B列用中位数填（避免极端值影响） })
+方案2：删除缺失值（缺的多用，保证数据质量）
+df_dropped = df.dropna( subset=["A"],  # 只看A列的缺失值 how="any"      # 只要A列缺就删行（how="all"：全缺才删） )  
+1. 处理重复值
+1. 创建含重复值的示例数据
+df_dup = pd.DataFrame({ "城市": ["北京", "上海", "北京", "深圳"], "人口(万)": [2154, 2487, 2154, 1756] })
+2. 标记重复行（查看重复位置）
+df_dup["是否重复"] = df_dup.duplicated(subset=["城市"])  # 按“城市”判断重复
+3. 删除重复值（保留第一次出现的行）
+df_unique = df_dup.drop_duplicates(subset=["城市"], keep="first")  
+1. 处理异常值（超出合理范围的数据）
+示例：人口数据中混入“10000万”（明显异常）
+df_outlier = pd.DataFrame({ "城市": ["北京", "上海", "广州"], "人口(万)": [2154, 10000, 1868] })
+方法：用“3σ原则”或“合理范围”筛选（实战中更常用合理范围）
+筛选人口在1000-3000万之间的行（排除异常值）
+df_normal = df_outlier[(df_outlier["人口(万)"] > 1000) & (df_outlier["人口(万)"] < 3000)]  
+
+1. 数据类型转换（避免计算错误）
+1. 查看当前数据类型
+print(df.dtypes)  # 输出各列类型（如object=字符串，int64=整数）
+2. 转换类型（astype+to_datetime）
+df_convert = df.copy()
+把“人口”转成整数，“GDP”转成浮点数
+df_convert = df_convert.astype({ "人口(万)": "int32",  # 整数类型（节省内存） "GDP(万亿)": "float32"  # 浮点数类型 })
+把字符串列转成日期（关键：指定格式，避免自动识别错误）
+
+df_convert["日期"] = pd.to_datetime(df_convert["日期列"], format="%Y-%m-%d")  
+
+五、数据转换与重塑（数据“变形”，2-3小时）
+
+把数据改成“方便分析的格式”，比如新增计算列、透视表（对应Excel透视表）：
+
+1. 新增计算列（基于现有列算新数据）
+
+python    
+
+示例数据：城市GDP和人口
+
+df = pd.DataFrame({ "城市": ["北京", "上海", "广州"], "GDP(万亿)": [4.03, 4.32, 2.82], "人口(万)": [2154, 2487, 1868] })
+
+1. 简单计算（人均GDP：GDP*10000亿 / 人口万）
+
+df["人均GDP(万)"] = (df["GDP(万亿)"] * 10000) / df["人口(万)"]
+
+2. 条件计算（给GDP分等级：用apply+lambda，灵活）
+
+df["GDP等级"] = df["GDP(万亿)"].apply( lambda x: "高" if x > 4 else "中" if x > 3 else "低" )
+
+输出结果：北京→高，上海→高，广州→中
+
+ 
+
+1. 透视表（Pivot Table，Excel用户必学）
+
+python    
+
+示例数据：电商销售数据（日期、地区、销售额）
+
+df_sales = pd.DataFrame({ "日期": ["2023-01", "2023-01", "2023-02", "2023-02"], "地区": ["北京", "上海", "北京", "上海"], "销售额(万)": [150, 200, 180, 220] })
+
+做透视表：行=日期，列=地区，值=销售额求和（看每月各地区销量）
+
+pivot_df = df_sales.pivot_table( index="日期",    # 行：日期 columns="地区",  # 列：地区 values="销售额(万)",  # 值：销售额 aggfunc="sum"   # 聚合方式：求和（可填mean/max等） )
+
+输出结果：
+
+地区    北京  上海
+
+日期
+
+2023-01  150  200
+
+2023-02  180  220
+
+ 
+
+1. 堆叠与解堆（长表转宽表/宽表转长表）
+
+python    
+
+1. 解堆（unstack）：把行标签转成列（宽表）
+stacked = pivot_df.stack()  # 透视表→长表（Series）
+2. 堆叠（stack）：把列标签转成行（长表）
+unstacked = stacked.unstack()  # 长表→宽表（DataFrame）  
+六、数据合并与连接（多表整合，2-3小时）
+实战中数据常存在多个表（如订单表、用户表），需合并成一张表分析，核心3种方法：
+1. 按键合并（merge，最常用，类似SQL的JOIN）
+表1：订单表（含用户ID）
+df_orders = pd.DataFrame({ "订单ID": [1001, 1002, 1003], "用户ID": [1, 2, 1], "订单金额": [200, 300, 150] })
+表2：用户表（含用户ID和信息）
+df_users = pd.DataFrame({ "用户ID": [1, 2, 3], "用户名": ["张三", "李四", "王五"], "城市": ["北京", "上海", "广州"] })
+合并：按“用户ID”连接（保留两边都有的用户，即内连接）
+df_merge = pd.merge( left=df_orders,    # 左表：订单表 right=df_users,    # 右表：用户表 on="用户ID",        # 连接键：用户ID how="inner"        # 连接方式：inner（只保留匹配行） )
+输出结果：包含订单ID、用户ID、订单金额、用户名、城市（用户3无订单，不显示）
+1. 纵向拼接（concat，上下拼表）
+python    
+表1：1月销售数据
+
+df_jan = pd.DataFrame({ "日期": ["2023-01-01", "2023-01-02"], "销售额": [150, 200] })
+
+表2：2月销售数据
+
+df_feb = pd.DataFrame({ "日期": ["2023-02-01", "2023-02-02"], "销售额": [180, 220] })
+
+纵向拼接（axis=0：上下拼，需列名一致）
+
+df_all_sales = pd.concat([df_jan, df_feb], axis=0, ignore_index=True)
+
+ignore_index=True：重置行号（避免重复行号）
+
+ 
+
+1. 按索引合并（join，适合索引是唯一标识的场景）
+
+python    
+
+表1：按“用户ID”设索引
+
+df_orders_idx = df_orders.set_index("用户ID")
+
+表2：按“用户ID”设索引
+
+df_users_idx = df_users.set_index("用户ID")
+
+按索引合并（left_join：保留左表所有行）
+
+df_join = df_orders_idx.join(df_users_idx, how="left")  
+
+七、分组与聚合（groupby，数据分析核心，3-4小时）
+
+按“类别”统计数据（如按地区算平均销售额、按月份算总销量），类比“Excel分类汇总”，但更灵活：
+
+1. 基础分组聚合（按1列分组）
+
+python    
+
+示例数据：电商销售数据
+
+df_sales = pd.DataFrame({ "地区": ["北京", "北京", "上海", "上海", "北京"], "日期": ["2023-01", "2023-02", "2023-01", "2023-02", "2023-03"], "销售额(万)": [150, 180, 200, 220, 210], "利润(万)": [30, 36, 40, 44, 42] })
+
+1. 按“地区”分组，算销售额和利润的总和
+
+grouped1 = df_sales.groupby("地区").agg({ "销售额(万)": "sum",  # 销售额求和 "利润(万)": "sum"     # 利润求和 }).reset_index()# reset_index：把“地区”从索引变回列
+
+2. 按“地区”分组，算多个统计指标（sum+mean+max）
+
+grouped2 = df_sales.groupby("地区").agg({ "销售额(万)": ["sum", "mean", "max"],  # 销售额：总和、均值、最大值 "利润(万)": "mean"                     # 利润：均值 }).reset_index()  
+
+1. 多列分组（更细粒度的分析）
+
+python    
+
+按“地区+日期”分组（看每月各地区的销售）
+
+grouped_multi = df_sales.groupby(["地区", "日期"]).agg({ "销售额(万)": "sum", "利润(万)": "mean" }).reset_index()
+
+输出结果：每行是“地区+月份”的组合，对应销售额和平均利润
+
+ 
+
+1. 分组后过滤（筛选符合条件的组）
+
+python    
+
+按“地区”分组后，筛选“总销售额>500万”的地区
+
+步骤1：分组算总销售额
+
+grouped_filter = df_sales.groupby("地区").filter( lambda x: x["销售额(万)"].sum() > 500  # 条件：组内销售额总和>500 )
+
+输出结果：只有“北京”（总销售额150+180+210=540>500）
+
+ 
+
+八、时间序列处理（实战高频，2-3小时）
+
+处理日期相关数据（如按天/月/年统计），核心是“把字符串转成日期格式”后操作：
+
+1. 创建时间序列
+
+python
+import pandas as pd import numpy as np
+
+1. 生成连续日期（2023年全年，按天）
+
+date_rng = pd.date_range(start="2023-01-01", end="2023-12-31", freq="D")
+
+2. 基于日期创建时间序列数据（随机生成每日销量）
+
+ts = pd.Series( data=np.random.randint(100, 500, size=len(date_rng)),  # 100-500的随机销量 index=date_rng  # 日期作为索引 )  
+
+1. 重采样（按不同时间粒度统计）
+
+python    
+
+1. 按月重采样（算每月平均销量）
+
+monthly_avg = ts.resample("M").mean()  # "M"=月，"D"=天，"Y"=年
+
+2. 按季度重采样（算每季度总销量）
+
+quarterly_sum = ts.resample("Q").sum()  
+
+1. 滚动计算（滑动窗口，看趋势）
+
+python    
+
+7天滚动平均（看近7天销量趋势，平滑波动）
+
+rolling_7d = ts.rolling(window=7).mean()
+
+30天滚动最大值（看近30天最高销量）
+
+rolling_30d_max = ts.rolling(window=30).max()  
+
+九、实战案例：电商销售数据分析（整合所有知识点，3-4小时）
+
+案例背景
+
+有3个文件：
+
+1.  orders.csv （订单数据：订单ID、用户ID、订单日期、商品ID、购买数量、单价） 2.  users.csv （用户数据：用户ID、用户名、所在城市） 3.  products.csv （商品数据：商品ID、商品名称、品类）
+
+分析目标
+
+1. 加载并合并3张表； 2. 清洗数据（处理缺失值、异常值）； 3. 分析：各城市的总销售额、各品类的销量排名、每月销售额趋势； 4. 导出分析结果到Excel。
+
+完整代码（带注释）
+
+python
+import pandas as pd import numpy as np
+
+1. 加载数据
+
+df_orders = pd.read_csv("orders.csv", encoding="utf-8", parse_dates=["订单日期"]) df_users= pd.read_csv("users.csv", encoding="utf-8") df_products= pd.read_csv("products.csv", encoding="utf-8")
+
+2. 合并数据（3表连查）
+
+第一步：合并订单表和用户表（按用户ID）
+
+df_merge1 = pd.merge(df_orders, df_users, on="用户ID", how="left")
+
+第二步：合并商品表（按商品ID）
+
+df_all = pd.merge(df_merge1, df_products, on="商品ID", how="left")
+
+3. 数据清洗
+
+3.1 处理缺失值（用户表/商品表可能有缺失，填充“未知”）
+
+df_all["用户名"] = df_all["用户名"].fillna("未知用户") df_all["商品名称"]= df_all["商品名称"].fillna("未知商品")
+
+3.2 处理异常值（购买数量>100视为异常，删除）
+
+df_all = df_all[df_all["购买数量"] <= 100]
+
+3.3 新增计算列（销售额=购买数量*单价）
+
+df_all["销售额"] = df_all["购买数量"] * df_all["单价"]
+
+4. 数据分析
+
+4.1 各城市总销售额（按城市分组求和）
+
+city_sales = df_all.groupby("所在城市")["销售额"].sum().reset_index() city_sales= city_sales.sort_values("销售额", ascending=False)  # 按销售额降序
+
+4.2 各品类销量排名（按品类分组求购买数量总和）
+
+category_sales = df_all.groupby("品类")["购买数量"].sum().reset_index() category_sales= category_sales.sort_values("购买数量", ascending=False)
+
+4.3 每月销售额趋势（按订单日期重采样）
+
+先按日期分组算每日销售额
+
+daily_sales = df_all.groupby("订单日期")["销售额"].sum()
+
+按月重采样算总销售额
+
+monthly_sales = daily_sales.resample("M").sum().reset_index()
+
+格式化日期（只保留年月，方便查看）
+
+monthly_sales["订单日期"] = monthly_sales["订单日期"].dt.strftime("%Y-%m")
+
+5. 导出结果到Excel（多工作表）
+
+with pd.ExcelWriter("电商销售分析结果.xlsx") as writer: city_sales.to_excel(writer, sheet_name="各城市销售额", index=False) category_sales.to_excel(writer, sheet_name="各品类销量", index=False) monthly_sales.to_excel(writer, sheet_name="每月销售额趋势", index=False)
+
+打印关键结果
+
+print("各城市销售额TOP3：") print(city_sales.head(3)) print("\n各品类销量TOP3：") print(category_sales.head(3)) print("\n每月销售额趋势（前5个月）：") print(monthly_sales.head(5))  
+
