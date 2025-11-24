@@ -1,0 +1,2056 @@
+目录
+第一阶段	3
+一、标识	3
+二、 算法合集	3
+1、常规	3
+2、分数次方	3
+3、取模运算	3
+三、字符串定义	3
+1.注释的用法是解释说明，格式如下	3
+2.字符串拼接	4
+3. 打印时用到字符串格式化	4
+4.设置宽度和精度	4
+四、input	4
+2.循环函数	5
+3.猜数字游戏循环优化	5
+4.内循环外循环的应用	5
+五、合并print语句	6
+1.自动对齐print语句	6
+2.print("hello\tworld")	6
+3.循环绘制乘法表	6
+六、for循环	7
+七、函数	8
+1.def 函数名（形式参数）:	8
+2.return	8
+3.函数的说明文档	9
+八、数据容器	9
+1. 列表	9
+(1).range生成一个数字序列	9
+(2).列表的下表索引	10
+2. 列表的方法	10
+3. 元组	11
+(1).元组也可以下标索引	11
+(2).元组的方法	11
+(3).元组中有列表，可以用方法改变列表内容	11
+4.字符串	12
+4.1字符串的方法	12
+5.序列	13
+6.集合	13
+(1).添加元素{}.add	13
+(2).清空集合{}.clear	14
+(4).#i0和i1的差集	14
+(5).集合的合并	14
+(6).统计集合的元素数量	14
+(7).集合的遍历	14
+7.字典	14
+7.1字典的用法	14
+7.2字典的嵌套	15
+7.3字典的常用操作	15
+九、数据容器的通用操作	15
+d = (1, 2, 3)# 元组	15
+十、函数	16
+10.函数的传参方式	16
+(1).位置参数(调用函数式根据函数定义的参数位置来传递参数)	16
+(2).关键字传参	16
+(3).默认参数（缺省参数）	17
+(4)不定长参数（可变参数）	17
+(5).函数本身作为参数，传入另一个函数中使用	17
+(6).匿名函数	17
+十一、文件编码	18
+1、文件读取操作	18
+十二、异常	19
+1、为什么要捕获异常	19
+2、捕获异常的方法	19
+3、异常的传递性	20
+十三、模块	20
+（1）制作自定义模块	21
+十三、什么是json	21
+（1）主要功能	22
+（2）将python转化为json	22
+十四、 pyecharts运用	22
+（1）图像小节	32
+1.Line()	32
+2.Map()	32
+3.Bar()	32
+4.Timeline()	32
+第二阶段	36
+一、设计类	36
+class 类名称:	36
+1、创建对象	36
+2、内置方法，也称为魔术方法	36
+3、 封装	37
+4、私有成员	37
+5、类的继承	38
+6、复写，对继承的成员不满意，可以继续写	38
+7、类型注解	39
+8、多态	39
+9、多态练习	39
+二、MySQL数据库语法	42
+1、基础语法	42
+2、DDL-库管理	42
+3、关于表的操作	43
+4、数据类型有	43
+5、向表的列添加values	43
+6、-- 向student添加数据顺序传参	44
+7、-- 输出表的列	44
+8、函数控制	45
+9、打印表内容	45
+10、在python中写mysql代码	45
+第三阶段、python高阶学习	46
+闭包	46
+装饰器	47
+单例模式	47
+工厂模式	48
+多线程工作	48
+服务端开发和客户端开发	49
+客户端开发	50
+正则表达式	50
+元字符匹配	51
+正则表达练习题	52
+递归	52
+
+pip用清华大学端口下载
+cmd设置为永久
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+更新pip
+python -m pip install --upgrade pip
+在for循环中，如果if x%2: 表示取奇数，为什么，因为能除尽是true除不尽是false
+布尔类型非零值是True，零值是False
+第一阶段
+一、标识
+print()输出
+1.标识不建议用中文
+2.关键字不能用
+3.数字不能开头
+4.大小写敏感(能区分大小写)
+5.只允许使用英文(建议1小写)，中文，数字，下划线（_）
+
+二、算法合集
+1、常规
+加（+）减（-），乘（*）除（/）取整除（//），取余（%），指数（**）
+c+=a = c+a
+c-=a = c-a
+2、分数次方
+a的-n次方 = 1/（a**n） =（1/a）**n
+3、取模运算
+x % y = x-y*[x/y](向下取余数)
+4、分数指数
+5的三分之二次方就是5的二次方再开三次方根
+
+三、字符串定义
+用单引号或双引号
+1.注释的用法是解释说明，格式如下
+# 注释
+或者
+”””
+注释
+”””
+2.字符串拼接
+之间用+
+“hell” +  ”o” =  ”hello”
+无法和非字符串类型拼接
+
+3.打印时用到字符串格式化
+定义变量后使用
+%s将内容转化成字符串
+%s可以用来拼接非字符串
+%d将内容转化成整数，放入占位位置
+%f将内容转化成浮点数，放入占位位置
+可混合使用
+语法
+变量 = “内容%s\%d\%f”% (s的数据,df)
+
+4.设置宽度和精度
+"%设置内容" % 被设置的数
+“%m.nf”% 数字 = 宽度为m，精度保留n位小数
+“%.nf”% 数字 = 精度保留n位小数
+“%3d”%11 = {}11
+“%4.2f”%11.4554 = 11.46
+
+5.print(f“{}”)快速格式化填入
+name = "张金硕"
+year = 19.5
+tel = 1320900
+print(f"我是{name}，我今年{year}岁，我的电话是{tel}")
+特点：不会理会类型，不做精度控制，适合没有要求快速填入。
+
+四、input
+input输入
+name = input("请告诉我你是谁？")
+print("我知道了，你是%s"%name)
+
+1.bool布尔类型
+True表示真
+False表示假
+
+2.循环函数
+while：
+计算1+2+3+......+100
+i = 0
+num = 0
+while i <= 100:
+    num = num+i
+    i += 1
+print(num)
+
+3.猜数字游戏循环优化
+import random
+num = random.randint(1, 100)              随机取数
+flag = True                               非数字循环开头       
+i = 0
+while flag:                               非数字循环开头写法   
+    guess_num = int(input("请输入你猜测的数字。（1~100）"))
+    i += 1
+    if guess_num == num:
+        print("恭喜你，猜中了。")
+        flag = False                          False目的结束用语
+    else:
+        if guess_num > num:
+            print("很遗憾猜大了，请重新猜测。")
+        else:
+            print("很遗憾猜小了，请重新猜测。")
+print("你总共猜测了:",i,"次")
+
+4.内循环外循环的应用
+i = 1
+while i <= 100:
+    print(f"今天是第{i}天")         设置外循环参数，第一个循环先进行内循环
+    j = 1
+    while j <= 10:
+        print(f"送了{j}朵花")           
+        j += 1                        设置内循环参数
+    print("cnm")                      第一个循环结束后打印
+    i += 1                            总参数
+print(f"今天是第{i-1}天，表白成功了。")    总循环结束打印
+
+五、合并print语句
+print("hello")
+print("world")
+hello
+world
+print("hello",end='')
+print("world",end='')
+helloworld
+
+1.自动对齐print语句
+print("hello world\t")
+print("itheima best\t")
+hello world
+itheima best
+
+2.print("hello\tworld")
+print("itheima\t best")             \t用于对齐
+hello   world                            
+itheima best
+\n进行换行
+
+3.循环绘制乘法表
+1*1 = 1☟此空格是\t的效果                       	                       1.控制最大行 i <= 9                
+1*2 = 2	2*2 = 4	                                       2.控制每一行输出的组j <= i
+1*3 = 3 2*3 = 6  3*3 = 9                                j <= i
+1*4 = 4	2*4 = 8	 3*4 = 12 4*4 = 16	                   3.print(\t,end='')控制对齐和换行
+1*5 = 5	2*5 = 10 3*5 = 15 4*5 = 20 5*5 = 25            
+1*6 = 6	2*6 = 12 3*6 = 18 4*6 = 24 5*6 = 30 6*6 = 36	
+1*7 = 7	2*7 = 14 3*7 = 21 4*7 = 28 5*7 = 35 6*7 = 42 7*7 = 49	
+1*8 = 8	2*8 = 16 3*8 = 24 4*8 = 32 5*8 = 40 6*8 = 48 7*8 = 56 8*8 = 64	
+1*9 = 9	2*9 = 18 3*9 = 27 4*9 = 36 5*9 = 45 6*9 = 54 7*9 = 63 8*9 = 72 9*9 = 81
+无end=’‘的效果                       end=''用于合并行
+1*9=9
+2*9=18
+3*9=27
+4*9=36
+5*9=45
+6*9=54
+7*9=63
+8*9=72
+9*9=81
+
+i = 1                                        
+while i <= 9:                               控制行循环     
+    j = 1
+    while j <= i:                           控制每一行输出的循环
+        print(f"{j}*{i}={j*i}\t", end='')   print(\t,end='')控制对齐和合并
+        j += 1
+    i += 1
+    print()                                 用于每一行结束的换行
+无print()的效果
+1*1=1	1*2=2	2*2=4	1*3=3	2*3=6	3*3=9	1*4=4	2*4=8	3*4=12
+
+案例用于实验
+i = 1
+while i <= 9:
+    j = 1
+    while j <= i:
+     print(f"{j}*{i}={j*i}\t", end='')
+        j += 1
+     i += 1
+    print()
+六、for循环
+for x in 内容:
+name = "itheima is a brand of itcast"
+i = 0
+for x in name:
+    if x == "a":
+        i += 1
+print(f"{name}中有{i}个a")
+break结束语句
+continue中断语句
+Ture开始
+False结束
+
+for x in range(1, 10):
+    print(x)
+规范不可以
+能运行
+
+2.for循环临时变量作用域限定为循环内(不是全局变量)
+可以先定义，再从外部访问
+x = 0
+for x in range(10):
+    print(x)
+print(x)
+    
+七、函数
+1.def 函数名（形式参数）:
+    函数体
+    return 返回值
+直接输入就可以调用函数
+函数名（）
+也可以
+变量=函数（实际参数）
+函数定义中的参数，称之为形式参数
+函数调用中的参数，称之为实际参数
+参数数量不限，逗号分开。
+
+2.return
+函数体遇到return不再运行
+如果没有return有返回值None，没有返回实际内容
+def add():
+print("hello")
+
+restul = add()
+print(f"{restul}")               返回值None无意义的空的
+print(f"{type(restul)}")         返回值类型<class 'NoneType'>
+
+3.函数的说明文档
+"""
+def func(x,y):
+    """
+    func函数说明
+    :param x:
+    :param y:
+    :return:
+    result = x + y
+"""
+random.randint 和 random.randrange 在Python中都用于生成随机数
+1.区间范围：
+random.randint(a, b)取值范围是[a, b]
+random.randrange(a, b)取值范围是 [a, b)
+2.参数数量：
+random.randint 需要两个参数来明确指定随机数的上下限，
+random.randrange只需要一个参数来指定随机数的上限，它默认从0开始。
+3.步长设置：
+random.randrange允许设定步长参数，这样生成的随机数会按照指定的间隔进行选择。
+random.randint则没有这个功能。
+4.使用场景：
+由于random.randint能够方便地指定一个明确的上下界范围，
+因此当需要在一个闭区间内生成随机数时更为合适。
+相反，如果需要在开区间或者按照特定步长生成随机数，
+random.randrange将是更好的选择。
+        
+八、数据容器
+1.列表
+生成一个列表
+变量 = []
+变量 = list()
+
+(1).range生成一个数字序列
+list1 = range(1,21,2)  # print(list(list1))
+表示从1开始到20，间隔为2
+
+# 两种方法生成一组列表
+ii = [i for i in range(1, 10)]
+print(ii)
+# 结果：[1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+c7 = list(range(1, 10))
+print(c7)
+# 结果：[1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+(2).列表的下表索引
+现有一个列表
+num = ['tom','bob']
+print(num[0], end=''",")  
+# 结果tom,bob使用下标可以取到元素，从0开始 
+                                                                                              
+print(num[-1], end=''",")
+# 结果bob 可以用负数来从最后开始取元素
+     
+num1 = [["1", "2", "3"], ["4", "5", "6"]]
+print(num1[0][0], end=''",")
+print(num1[1][0], end=''",")
+print(num1[1][2], end='')
+# 结果1,4,6
+
+2.列表的方法
+现有一个列表
+name1 = [[1, 2, 3], [4, 5, 6]]
+name2 = [9, 5, 8, 7, 6]
+
+（1）列表.index（）# 查找内容的位置	index = name1.index([4, 5, 6])
+print(index)
+# 结果：1
+（2）列表.insert（）# 在指定下标添加 	name1.insert(2, [7, 8, 9])
+print(name1)
+# 结果：[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+（3）列表.append（）# 在末尾加	name1.append([10, 11, 12])
+print(name1)
+# 结果：[[1, 2, 3], [4, 5, 6],[10, 11, 12]]
+（4）列表.extend（）# 将内容(列表)合并到列表	name1.extend([[5, 4, 9]])
+print(name1)
+# 结果：[[1, 2, 3], [4, 5, 6]，[5, 4, 9]]
+（5）列表.extend（）# 将内容(所有元素)合并到列表	name2.extend([5, 4, 3])
+print(name2)
+# 结果：[9, 5, 8, 7, 6, 5, 4, 3]
+（6）del 列表[下标]# 删除指定下标的内容
+	del name1[0]
+print(name1)
+# 结果：[[4, 5, 6]]
+（7）列表.pop（）# 删除下标处的内容	name1.pop(0)
+print(name1)
+# 结果：[4, 5, 6]
+（8）列表.remove（指定内容）# 删除找到第一个的指定内容	name2.remove(6)
+print(name2)
+# 结果：[9, 8, 7]
+（9）列表.count（内容）# 计算列表中内容数量
+	count = name2.count(9)
+print(count)
+# 结果：1
+（10）列表.clear()# 清空列表
+	name1.clear()
+print(name1)
+# 结果：[]
+（11）len(列表)# 计算列表所有元素数量
+	num = len(name1)
+print(num)
+# 结果：7
+
+3.元组
+变量 = （）
+变量 = tuple()
+(1).元组也可以下标索引
+t5 = ((1, 2, 3), (4, 5, 6))
+ci = t5[1][2]
+print(ci)
+# (4, 5, 6)
+
+(2).元组的方法
+查找元组.index()元素下标      统计元组.count()元组中某元素数量   统计元组中元素个数len(元组)
+
+(3).元组中有列表，可以用方法改变列表内容
+t1 = (1, 2, [123, 456])
+t1[2][0] = 789
+print(t1)
+# (1, 2, [789, 456])
+
+4.字符串
+字符串也是数据容器
+字符串也不可修改
+字符串下标索引
+生成一个字符串
+my_str = "itheima and itcate"
+my_str = "itheima and itcate"
+value = my_str[0]
+结果：i
+4.1字符串的方法
+字符串不可修改，不是字符串本身，而是生成一个新的字符串
+(1).字符串的替换
+写法：new字符串 = 字符串.replace(“old”, “new”)
+功能：将字符串内“old”，替换“new”
+
+(2).字符串的分割
+语法：字符串.split(分割字符串)
+功能：按照指定的分割符字符串，将字符串划分为多个字符串，并存入列表对象中
+注意：字符串本事不变，而是得到了一个列表对象
+my_str = "hello python itheima itcast"
+my_str_list = my_str.split(" ")
+print(my_str_list)
+结果['hello', 'python', 'itheima', 'itcast']
+简易原理：将split(" ")括号中的值去除，并在值处用逗号分割
+
+(3).字符串的规整
+语法：字符串.strip(){去除空格}
+my_str = "  itheima and itcast  "
+print(my_str.strip())
+结果:itheima and itcast
+
+my_str = "12itheima and itcast21"
+print(my_str.strip("12"))
+注意strip("12") = strip("1")和strip("2")
+去除的是字符串两端内容
+结果:itheima and itcast
+
+(4).字符串的遍历
+i = 0
+while i < len(my_str):
+    print(my_str[i])
+    i += 1
+print(i)
+for x in my_str:
+    print(my_str[i])
+    i += 1
+print(i)
+
+5.序列
+内容连续、有序、，可使用下标索引的一类容器
+列表、元组、字符串，均可当作序列
+
+序列的切片
+从序列中取出一个子序列
+语法：序列[起始下标：结束下标：步长]
+从序列指定位置开始，依次取出元素，到指定位置结束，得到一个新序列
+a=[5,6,7,8,9,10]
+取5，8，10
+b=a[0:5:2]
+取10，8，5
+b=a[-1:-5:-2]#方向一致
+b=a[-5:-1:2]
+
+6.集合
+列表[]可修改，支持重复元素且有序
+元组（），字符串""不可修改，支持重复元素且有序
+集合不支持重复元素，且无序
+集合的定义语法{}
+集合有去重的作用
+
+集合的语法
+(1).添加元素{}.add
+随机取出个元素{}.pop
+c9 = {"传智教育","黑马程序员","itheima"}
+elaitment = c9.pop()
+
+(2).清空集合{}.clear
+
+(3).取差集(两个集合不同的值){}.dfference(另一个集合)
+i0 = {1,2,3,4,5}
+i1 = {2,3,5}
+i3 = i0.difference(i1)
+# i3 = {1,4}
+
+(4).#i0和i1的差集
+运算操作{}difference_update({})
+i0 = {1,2,3,4,5}
+i1 = {2,3,5}
+i0.difference_update(i1)
+# i0 = {1,4}
+
+(5).集合的合并
+{}.union({})
+合并后自动去除相同数据
+
+(6).统计集合的元素数量
+自变量 = len({})
+
+(7).集合的遍历
+支持for循环，不支持while循环，因为没有下标索引,所以有可能不按顺序循环
+for x in {}:
+    
+7.字典
+字典的定义
+dict = {key:value, key,value}
+定义空字典
+自变量 = {}
+自变量 = dict()
+字典没有下标索引
+key不能重复
+value可以为任何类型
+(3).更新
+字典[原有的key] = 新的value
+(4).删除
+字典.pop(key)
+(5).清空
+字典.clear()
+(6).取出字典所有的key
+字典.keys()
+(7).字典的遍历
+for 临时变量 in 字典:
+    print(临时变量)
+print(字典[临时变量])
+(8).统计字典中元素
+len(字典)
+
+7.1字典的用法
+my_dict1 = {"wa": 88, "wg": 87}
+print(my_dict1["wg"])
+
+7.2字典的嵌套
+my_dict2 = {"wh": {"语文": 1, "数学": 2}, "zj": {"语文": 3,"数学": 4}, "lj": {"语文": 5,"数学": 6}}
+print(my_dict2["wh"])wh的成绩
+print(my_dict2["wh"]["语文"])wh的语文成绩
+
+7.3字典的常用操作
+(1).字典的添加
+自变量 = {key:value}
+向某一key和value
+字典[key] = value
+
+(2)用zip()函数添加
+name = ["key1","key2","key3"......]
+name_data = ["value1","value2","value3"......]
+new_dict = {}
+
+for x, y in zip(name, name_data):
+new_dict[x] = y
+
+print(new_dict)
+# {"key1":"value1","key2":"value2".......}
+
+九、数据容器的通用操作
+
+               	max(容器)最大元素	min(容器)最小元素	list(容器)
+a = [1, 2, 3]# 列表	3	1	[1, 2, 3]
+d = (1, 2, 3)# 元组	3	1	[1, 2, 3]
+f = "itai"# 字符串	t	a	['i', 't', 'a', 'i']
+e = {1, 2, 3}# 集合	3	1	[1, 2, 3]
+g={"key1":1,"key2":2,"key3":3}	key3	key1	['key1','key2','key3']
+	                   tuple(容器)	str(容器)	set(容器)
+a = [1, 2, 3]# 列表	(1, 2, 3)	[1, 2, 3]	{1, 2, 3, 4}
+d = (1, 2, 3)# 元组	(1, 2, 3)	(1, 2, 3)	{1, 2, 3, 4}
+f = "itai"# 字符串	('i', 't', 'a', 'i')	itai	{'a', 't', 'i'}
+e = {1, 2, 3}# 集合	(1, 2, 3)	{1, 2, 3}	{1, 2, 3}
+g={"key1":1,"key2":2,"key3":3}	('key1','key2','key3')	{'key1':1,'key2':2,'key3':3}	{'key2','key1','key3'}
+	                           dict(容器)	                       sorted(容器)# 排序	
+a = [1, 2, 3]# 列表	      有函数但会报错             sorted(容器, [reverse=True])将数据容器转换为列表并从大到小排序元素	                  
+d = (1, 2, 3)# 元组			
+f = "itai"# 字符串			
+e = {1, 2, 3}# 集合			
+g={"key1":1,"key2":2,"key3":3}			
+
+十、函数
+函数的多返回值
+def 函数名（）：
+    return a，b，c
+    
+x，y，z = 函数名（）
+print(x)  结果   a
+print(y)  结果   b
+print(z)  结果   c
+
+10.函数的传参方式
+def my_def(x):
+    
+(1).位置参数(调用函数式根据函数定义的参数位置来传递参数)
+def my_def(name, age):
+    print(f"名字{name}年龄{age}")
+my_def('tom',20)
+必须按照顺序写
+
+(2).关键字传参
+def my_def(name, age):
+    print(f"名字{name}年龄{age}")
+my_def(name = 'tom', age = 20)
+my_def(age = 20, name = 'tom')
+不需要按照顺序
+可以混合使用
+def my_def(age, name2, anum, zimu):
+    print(f"年龄{age}名字{name2}，数字{anum}字母{zimu}")
+    
+my_def(20, "tom", 55, zimu="z")
+年龄20名字tom，数字55字母z
+
+(3).默认参数（缺省参数）
+def my_def(age, name2, anum, zimu='ij'默认参数必须写到最后面):
+    print(f"年龄{age}名字{name2}，数字{anum}字母{zimu}")
+
+my_def(20, "tom", 55)
+年龄20名字tom，数字55字母z
+
+(4)不定长参数（可变参数）
+[1]位置不定长
+传入的形式参数作为元组的存在，接收不定长数量的参数传入(可以有无数个参数)
+def my_def(*args):
+       print(args)
+运行my_def(1,2,3,"tom")元组形式
+        #(1, 2, 3, 'tom')
+[2]关键字不定长
+传入的形式参数作为字典的存在，接收不定长数量的key传入(可以有无数个key)
+def my_def(**kwargs):
+      print(kwargs)
+my_def(diyi=1,dier=2,disan=3,name="tom")字典形式
+运行{'diyi': 1, 'dier': 2, 'disan': 3, 'name': 'tom'}
+
+(5).函数本身作为参数，传入另一个函数中使用
+def 函数1(函数2):
+    自变量 = 函数2（函数2的参数）
+方法
+def 函数2（函数2的参数）:
+    函数2的方法
+# 调用   
+函数1（函数2）
+name = 10
+num = 11
+def test_func(compute):
+    result = compute(x=name, y=num)
+    if result == 3:
+        print("错")
+    else:
+        print(f"对{result}")
+def compute(x, y):
+    return x + y
+test_func(compute)
+(6).匿名函数
+lambda可以定义匿名参数（无名称）
+有名称函数def可以重复利用
+无名称函数只能用一次
+适用于简单的调用函数
+
+# 语法
+lambda 传入参数: 函数体(只能写一行代码)
+    #对lambda解释
+     lambda 参数 : (return) 函数体
+    #跟如下函数同样效果
+    def 没名字(参数):
+return 函数体
+add = lambda x, y: x + y
+print(add(1, 2))
+# 3
+十一、文件编码
+什么是编码
+一种规律集合记录内容和二进制的相互转换逻辑
+最常用UTF-8
+
+1、文件读取操作
+open(name,mode,encoding=)
+mode:打开方式:只读，追加，写入。。。。。
+r模式只读
+w模式打开文件进行写入，删除原有内容，重新开始编辑，若不存在，创建新文件
+a模式打开文件进行追加，不会删除原内容写入，若不存在，创建新文件
+encoding:编码格式，推荐使用UTF-8
+2、语法
+f = open("D:/测试.txt", 'r', encoding="UTF-8")
+f.read(10)
+# 打出十个字节
+f.read()
+打出所有内容
+第二次的读取接着第一次的内容继续
+f.readlines()
+将所有内容整合成列表
+print(f.readline())
+# 打出一行
+print(f.readline())
+# 接着打出一行
+for x in f:
+      print(x)
+# for循环遍历文件
+f.close()
+在Pycham打开文件在占用文件使用，可以关闭pycham的占用，可以更改文件
+time.sleep(50000)
+# 持续运行括号内是时间，多少秒
+用with open() as f 
+# 自动关闭文件
+
+当读取格式为写入
+f.write()清空文档写入
+当读取内容为追加
+f.write()在文档最后写入
+f.flush()将所写或追加内容整合写入文件
+f.close()关闭占用文件，涵盖flush的方法
+十二、异常
+就是bug
+
+1、为什么要捕获异常
+再有可能发生异常的地方进行捕获，当异常出现时，提供解决方式
+2、捕获异常的方法
+try:
+    有可能发生的异常
+except[异常种类 as 别名:]
+    出现异常做的事
+# 检测异常类型
+except Exception as e:
+    print(f"出现异常了，异常内容是{e}")
+[else]:
+    未出现异常做的事
+[finally]:
+    不管出现不出现异常都会做的事
+捕获所有异常
+except: 
+或 
+except Exception:（常用的）
+
+# 举例,尝试打开一个不存在文件
+try:
+    # 尝试打开一个文件读取
+    fi = open("assdxasax.txt", "r", encoding="UTF-8")
+    c = fi.read()
+except FileNotFoundError:
+    # 文件不存在运行
+    print("未找到文件")
+except Exception as e:
+    # 发生其他异常执行
+    print(f"发现一个异常:{e}")
+else:
+    # 没有异常执行
+    print(c)
+finally:
+    # 有没有异常都执行
+    if "fi" in locals():  # 确保文件存在
+        fi.close()  # 关闭文件
+    print("文件关闭")
+    
+3、异常的传递性
+异常的检测可以传递，当函数有调用关系时可以传递
+举例
+def a():
+    print("a开始")
+    num = 1 / 0
+    print("a结束")
+def b():
+    print("b开始")
+    a()
+    print("b结束")
+def c():
+    print("c开始")
+    b()
+    print("c结束")
+def ma():
+    try:
+        c()
+    except Exception as e:
+        print(f"出现异常了异常的类型是{e}")
+ma()
+
+十三、模块
+[from 模块名] import [模块 /类 /变量 /函数 /*] [as 别名]
+
+一般情况
+import 模块名
+取模块中的某一内容
+from 模块名 import 内容
+以下内容效果一致
+# import time
+# time.sleep(5000)	# import time as t（定义别名t）
+# t.sleep(5000)
+# from time import sleep
+# sleep(5000)	# from time import sleep as s（定义别名s）
+# s(5000)
+
+
+（1）制作自定义模块
+#制作
+python 文件1
+模块1
+内容
+#调用
+python 文件2
+from 模块1 import 类型
+__main__变量
+让内容在模块一能使用，其他使用不了
+模块一
+def ac(a,b):
+    print(a + b)
+if __name__ == '__main__':
+    ac(10, 2)
+#结果12
+模块二
+from 模块一 import ac
+ac(1,1)
+#结果2
+__all__ = ["内容"]
+让其他模块只能调取模块一all的内容
+
+模块一
+__all__ = ["ac"]
+def ac(a,b):
+    print(a + b)
+def ab(c,d):
+    print(c + d)
+模块二
+from 模块一 import *
+ac(1,1)
+ab(10,2)
+#结果错误，引用不到ab函数
+#可以用语法调用
+模块二
+from 模块一 import ac(), ab()
+ac(1,1)
+ab(10,2)
+#结果
+2
+12
+
+
+创建自定义的包
+__init__.py作用
+确定该文件是个py包
+在该文件写__all__ = ["内容"]限定能调取的内容
+#举例
+在__init__.py写
+__all__ = ["文件名"]（all后内容#["文件名"]#是列表）
+调用包只能调取此文件。
+调用时
+from 包名.文件名 import 内容
+或者
+from 包名 import 文件名
+
+十三、什么是json
+轻量级交互格式 按照json指定的格式组织和封装
+本质特定格式的字符串
+
+（1）主要功能
+json各个编程语言流通的数据格式，负责不同的语言数据传递和交互
+json格式是字典,或者列表(列表中嵌套字典)
+key: 内容
+[{key: 内容},{key: 内容}]
+
+（2）将python转化为json
+import json##调用json包
+json.dumps(要转换的内容, ensure_ascii=False[#显示转换中文])
+字典列表转字符串
+import json
+data = [{"name": "张金硕", "age": 11},{"name": "李红", "age": 16}]
+json_str = json.dumps(data)
+print(type(json_str))
+# class str
+print(json_str)
+# [{"name": "\u5f20\u91d1\u7855", "age": 11}, {"name": "\u674e\u7ea2", "age": 16}]
+json_str = json.dumps(data, ensure_ascii=False  # 将代码转换成中文)
+
+（3）json转Python
+语法
+字符串还原成字典，列表
+json.loads(转换内容)
+s = '[{"name": "张金硕", "age": 11}, {"name": "李红", "age": 16}]'
+l = json.loads(s)
+print(type(l))
+# class list
+print(l)
+
+十四、 pyecharts运用
+细节看pyecharts官网
+from pyecharts.charts import Line
+from pyecharts.options import TitleOpts, LegendOpts, ToolboxOpts, VisualMapOpts
+
+line = Line()
+country = ["德国", "日本", "意大利"]
+data = [100, 500, 300]
+# 添加x轴坐标数据
+line.add_xaxis(country)
+# 添加y轴坐标数据
+line.add_yaxis("gdp", data)
+line.set_global_opts(
+    title_opts=TitleOpts(title="gdp展示", pos_left="center", pos_bottom="1%"),
+    # title=标题内容 pos_left="center"，pos表示对哪个位置，pos_left对左边来说，center的中间位置，
+    # pos_bottom="1%"就是对底边的1%的位置
+    legend_opts=LegendOpts(is_show=True),
+    # 图例的类型
+    toolbox_opts=ToolboxOpts(is_show=True),
+    # 工具箱
+    visualmap_opts=VisualMapOpts(is_show=True)
+    # 视觉映射
+)
+line.render()
+# 进行绘图
+
+练习
+# 引用内容
+import json
+from pyecharts.charts import Line
+from pyecharts.options import *
+# 获取文件
+f = open("D:/美国.txt", "r", encoding="UTF-8")
+# 读取所有内容
+fw = f.read()
+# 删除不是json的内容
+# 用字符串的替换 xxx = xxx.replace(“什么”，换成“什么”)
+fw = fw.replace("jsonp_1629344292311_69436(", "")
+# 只取到倒数第二个字符，不包括倒数第二
+fw = fw[:-2]
+# json转python
+fw = json.loads(fw)
+# 可以用json工具将内容简单化 https://www.ab173.com/gongju/json/jsoncolor.php
+# x轴为日期，日期一致只写一组
+day_x = fw["data"][0]["trend"]["updateDate"][:314]
+# 确定美国的y坐标
+data_y_us = fw["data"][0]["trend"]["list"][0]["data"][:314]
+# 关闭文件
+f.close()
+
+f = open("D:/印度.txt", "r", encoding="UTF-8")
+fw = f.read()
+fw = fw.replace("jsonp_1629350745930_63180(", "")
+fw = fw[:-2]
+fw = json.loads(fw)
+# 确定印度的y坐标
+data_y_in = fw["data"][0]["trend"]["list"][0]["data"][:314]
+# 关闭文件
+f.close()
+
+f = open("D:/日本.txt", "r", encoding="UTF-8")
+fw = f.read()
+fw = fw.replace("jsonp_1629350871167_29498(", "")
+fw = fw[:-2]
+fw = json.loads(fw)
+# 确定日本的y坐标
+data_y_jp = fw["data"][0]["trend"]["list"][0]["data"][:314]
+# 关闭文件
+f.close()
+# 生成图表
+line = Line()
+# x轴添加日期
+line.add_xaxis(day_x)
+# y轴添加各国感染人数
+line.add_yaxis("日本确诊人数表", data_y_jp, color="#FF0000", label_opts=LabelOpts(is_show=False))
+# color可以切换标签和折线的颜色，用rbg染色渲染查询网址
+line.add_yaxis("美国确诊人数表", data_y_us, color="blue", label_opts=LabelOpts(is_show=False))
+# 也可以直接拼写颜色
+line.add_yaxis("印度确诊人数表", data_y_in, color="green", label_opts=LabelOpts(is_show=False))
+# 生成文件以及包含的文件名
+line.set_global_opts(
+    # 设置视觉映射，当有视觉映射时折线颜色设置将被覆盖
+    visualmap_opts=VisualMapOpts(
+        is_show=True,
+        # max设置最大值
+        max_=10000000,
+        # min设置最小值
+        min_=34
+    ),
+    # 设置标题的位置
+    # title=标题内容 pos_left="center"，pos表示对哪个位置，pos_left对左边来说，center的中间位置
+    # pos_bottom="1%"就是对底边的1%的位置
+    title_opts=TitleOpts(is_show=True, title="各国确诊人数折线图", pos_left="center", pos_bottom="1%"),
+    # 开启工具箱
+    toolbox_opts=ToolboxOpts(is_show=True)
+)
+line.render("新冠学习版.html")
+
+地图的使用Map
+from pyecharts.charts import Map
+from pyecharts.options import *
+map1 = Map()
+# 内容为("地区",数据)
+data = [
+    ("北京市", 5),
+    ("新疆维吾尔自治区", 4),
+    ("香港特别行政区", 30),
+    ("澳门特别行政区", 20),
+    ("江苏省", 10)
+]
+# add中不能更改数据颜色可以用visualmap_opts函数
+map1.add("各地区数据", data, label_opts=LabelOpts(is_show=False))
+map1.set_global_opts(
+    visualmap_opts=VisualMapOpts(
+        is_show=True,
+        # 开启手动设置范围
+        is_piecewise=True,
+        # 手动设置范围内容
+        pieces=[
+            # min设置最小值，max设置最大值，label设置范围，color设置这个区域的颜色
+            {"min": 1, "max": 9, "label": "1-9", "color": "#FF0000"},
+            {"min": 10, "max": 99, "label": "10-99", "color": "#FF6666"}
+        ]
+    ),
+    # 工具箱
+    toolbox_opts=ToolboxOpts(is_show=True),
+    # 标题
+    title_opts=TitleOpts(is_show=True, pos_left="center", pos_bottom="1%")
+)
+map1.render("各地区数据.html")
+
+练习1（中国各地区疫情分布情况）
+import json
+from pyecharts.charts import Map
+from pyecharts.options import *
+f = open("D:/疫情.txt", "r", encoding="UTF-8")
+fw = f.read()
+# 删除不是json的部分
+fw = fw.replace('"lastUpdateTime":"2021-08-18 10:53:30",', "")
+# 放入json懒人网站进行格式化 http://www.kuquidc.com/
+# json转python
+fw = json.loads(fw)
+# 关闭文件
+f.close()
+# 设置地图的data，格式是data = [(地区，数据)]
+map_data = []
+# 创建一个空列表存放地区数据，进行排序，方便确定区间颜色
+new_data = []
+# 对文件的具体地区和数据存放处进行循环
+for x in fw["areaTree"][0]["children"]:
+    # 地区名称
+    name = x["name"]
+    # 对地区名称进行修改
+    if name == "新疆":
+        name = name + "维吾尔自治区"
+    elif name == "西藏":
+        name = name + "自治区"
+    elif name == "内蒙古":
+        name = name + "自治区"
+    elif name == "宁夏":
+        name = name + "回族自治区"
+    elif name == "广西":
+        name = name + "壮族自治区"
+    elif name == "北京":
+        name = name + "市"
+    elif name == "上海":
+        name = name + "市"
+    elif name == "重庆":
+        name = name + "市"
+    elif name == "天津":
+        name = name + "市"
+    elif name == "澳门":
+        name = name + "特别行政区"
+    elif name == "香港":
+        name = name + "特别行政区"
+    else:
+        name = x["name"] + "省"
+    # 地区的数据
+    name_data = x["total"]["confirm"]
+    # 将地区和数据以元组的形式添加到map_data中
+    map_data.append((name, name_data))
+    # 将地区的数据添加到空列表中
+    new_data.append(name_data)
+# 对地区数据从小到大排序
+new_data = sorted(new_data)
+print(new_data)
+# 创建地图数据
+map1 = Map()
+map1.add("中国各省疫情人数图", map_data, "china",
+         # 名称和添加数据以及构建地图的国家
+         # 设置在地图上不直接显示地区名称
+         label_opts=LabelOpts(is_show=False))
+map1.set_global_opts(
+    # 视觉映射配置项
+    visualmap_opts=VisualMapOpts(
+        is_show=True,
+        # 开启手动控制
+        is_piecewise=True,
+        pieces=[
+            # 控制分段最小值，最大值，范围的颜色
+            {"min": 1, "max": 63, "label": "1-63", "color": "#FFCCCC"},
+            {"min": 64, "max": 199, "label": "64-199", "color": "#FF9999"},
+            {"min": 199, "max": 410, "label": "199-410", "color": "#FF6666"},
+            {"min": 411, "max": 773, "label": "411-773", "color": "#FF3333"},
+            {"min": 774, "max": 982, "label": "774-982", "color": "#FF0000"},
+            {"min": 983, "max": 1181, "label": "983-1181", "color": "#CC0000"},
+            {"min": 1182, "max": 1613, "label": "1182-1613", "color": "#990000"},
+            {"min": 1614, "max": 15880, "label": "1614-15880", "color": "#660000"},
+            {"min": 15881, "max": 68286, "label": "15881-68286", "color": "#330000"},
+        ]
+        ),
+    # 控制标题
+    title_opts=TitleOpts(title="中国新冠病毒感染地区分布图", pos_left="center", pos_bottom="1%"),
+    # 开启工具箱
+    toolbox_opts=ToolboxOpts()
+    )
+map1.render("学习地图.html")
+
+练习2（河南省各地区疫情分布情况）
+import json
+from pyecharts.charts import Map
+from pyecharts.options import *
+f = open("D:/疫情.txt", "r", encoding="UTF-8")
+fw = f.read()
+fw = fw.replace('"lastUpdateTime":"2021-08-18 10:53:30",', "")
+fw = json.loads(fw)
+f.close()
+henan_data = fw["areaTree"][0]["children"][3]["children"]
+name_data = []
+map_data = []
+for x in henan_data:
+    name = x["name"]
+    if name == "境外输入":
+        continue
+    elif name == "地区待确认":
+        continue
+    elif name == "济源示范区":
+        name = name.replace("示范区", "市")
+        data = x["total"]["confirm"]
+    else:
+        name = name + "市"
+        data = x["total"]["confirm"]
+    map_data.append((name, data))
+    name_data.append(data)
+
+name_data = sorted(name_data)
+print(name_data)
+map1 = Map()
+
+# 地图类型要写河南，新疆的就写新疆
+
+map1.add("河南省疫情分布情况", map_data, "河南", label_opts=LabelOpts(is_show=False))
+map1.set_global_opts(
+    visualmap_opts=VisualMapOpts(
+        is_show=True,
+        is_piecewise=True,
+        pieces=[
+            {"min": 1, "max": 40, "label": "1-40", "color": "#FF6666"},
+            {"min": 41, "max": 76, "label": "41-76", "color": "#FF3333"},
+            {"min": 77, "max": 156, "label": "77-156", "color": "#FF0000"},
+            {"min": 157, "max": 300, "label": "157-300", "color": "#CC0000"},
+        ]
+    ),
+    title_opts=TitleOpts(is_show=True, title="河南各城市疫情分布图", pos_left="center", pos_bottom="1%"),
+    toolbox_opts=ToolboxOpts(is_show=True)
+)
+map1.render("地图练习2.html")
+
+Bar（柱状图）函数和TimeLine函数（时间轴）
+
+from pyecharts.charts import Bar
+from pyecharts.options import *
+country = ["美国", "中国", "日本"]
+data = [100, 500, 50]
+bar = Bar()
+bar.add_xaxis(country)
+bar.add_yaxis("各国数据", data, label_opts=LabelOpts(position="right"))
+bar.reversal_axis()
+bar.set_global_opts(
+    title_opts=TitleOpts(is_show=True, title="各国数据", pos_left="center",pos_bottom="1%"),
+    toolbox_opts=ToolboxOpts(is_show=True),
+    visualmap_opts=VisualMapOpts(
+        is_show=True,
+        is_piecewise=True,
+        pieces=[
+            {"color": "blue"}
+        ]
+    )
+)
+bar.render()
+
+重点总结
+# 让标签显示到右边
+bar.add_yaxis("各国数据", data, label_opts=LabelOpts(position="right"))
+# 翻转
+bar.reversal_axis()
+
+TimeLine函数
+from pyecharts.charts import Bar, Timeline
+from pyecharts.options import *
+country = ["美国", "中国", "日本"]
+data = [100, 500, 50]
+bar = Bar()
+bar.add_xaxis(country)
+bar.add_yaxis("各国数据", data, label_opts=LabelOpts(position="right"))
+bar.reversal_axis()
+
+country = ["美国", "中国", "日本"]
+data = [150, 600, 100]
+bar1 = Bar()
+bar1.add_xaxis(country)
+bar1.add_yaxis("各国数据", data, label_opts=LabelOpts(position="right"))
+bar1.reversal_axis()
+
+country = ["美国", "中国", "日本"]
+data = [200, 700, 150]
+bar2 = Bar()
+bar2.add_xaxis(country)
+bar2.add_yaxis("各国数据", data, label_opts=LabelOpts(position="right"))
+bar2.reversal_axis()
+
+timeline = Timeline()
+timeline.add(bar, "1924年")
+timeline.add(bar1, "1942年")
+timeline.add(bar2, "1968年")
+timeline.render()
+重点
+导timeline包在pyecharts.charts中
+timeline = Timeline()
+time.add(图, "时间")
+设置主题
+导包pyecharts.globals import ThemeType
+timeline.add_schema(
+    # 播放间隔，每隔多少毫秒播放,单位毫秒
+    play_interval=1000,
+    # 是否显示时间线
+    is_timeline_show=True,
+    # 是否自动播放
+    is_auto_play=True,
+    # 是否循环播放
+    is_loop_play=True
+    
+
+（1）图像小节
+1.Line()
+line.add(x轴数据)
+line.add("名称",y轴数据)
+列表数据
+2.Map()
+数据格式(地区,数据)
+map.add("名称",数据,"地区")
+元组数据
+3.Bar()
+bar.add_xaxis(x轴数据)
+bar.add_yaxis("名称",y轴数据)
+列表
+4.Timeline()
+timeline.add(图,"时间")
+
+补充
+列表sort()方法
+格式
+列表.sort(key="列表排序的依据"，reverse=Ture/False)# reverse表示是否翻转
+
+list1 = [["a", 9, 2], ["b", 8, 1], ["c", 7, 6]]
+方法一
+# def list_sort1(x):
+      # 把列表的每一项列表取出来进入函数
+#     return x[0]
+      # 返回内列表的下标内容       
+      #通过sort（key=进行排序）
+      
+# list1.sort(key=list_sort1)
+方法二
+# list1.sort(key=lambda xx: xx[2])
+print(list1)
+
+"
+解题思路：
+倒推法，想建立时间轴数据，首先需要timeline.(bar,"对应年的数据")
+bar图像需要bar.add_xaxis(国家)和bar.add_yaxis("GDP(亿)",GDP)
+那未知的是国家，GDP和年份
+通过for循环创造bar图像和timeline图像
+需要对数据进行排序和选取前八名
+要把数据整理成集合
+{年1:["国家1", gdp],["国家2", gdp].....,年2:["国家1", gdp],["国家2", gdp]......}
+取年对应的value值进行排序
+所以把文件的每一行数据切分封装到字典中就可以
+"
+from pyecharts.charts import Bar, Timeline
+from pyecharts.options import *
+from pyecharts.globals import *
+# 注意文件的打开格式不是UTF-8
+f = open("D:/1960-2019全球GDP数据.txt", "r", encoding="ANSI")
+# 以列表的方式陈列
+fw = f.readlines()
+"
+[1960, 美国, 5.433E+11
+1960,英国,73233967692
+.......]
+"
+# 去除第一行无效内容
+fw.pop(0)
+f.close()
+# 定义一个空字典来封装数据
+# 目标：{年1:["国家1", gdp],["国家2", gdp].....,年2:["国家1", gdp],["国家2", gdp]......}
+year_country_data = {}
+for x in fw:
+    # x的内容是fw每一行的内容
+    # 对每一行进行切片，逗号分开成列表
+    # [1960, 美国, 5.433E+11\n]
+    x = x.split(",")
+    # year要转数字类型否则时间轴标签会显示引号
+    year = int(x[0])
+    # country本来就是字符串，不用转
+    country = x[1]
+    如果不知道字典是否为空字典，用try检验
+    # 因为有部分数据内容有科学计数法，转浮点数就可以将科学计数法改为整数
+    data = float(x[2])/100000000
+    # 向year_country_data的key添加value
+    # year_country_data[year].append([country, data])的意思是向year添加[country, data]
+    # 因为year本身不在字典中，所以要添加一个空列表value
+    if year not in year_country_data:
+        year_country_data[year] = []
+    year_country_data[year].append([country, data])
+    "
+    # 尝试向year_country_data的year添加数据
+    try:
+        year_country_data[year].append([country, data])
+    # 如果报错就向year添加一个空列表，再进行添加数据
+    except KeyError:
+        year_country_data[year] = []
+        year_country_data[year].append([country, data])
+    "
+"
+如果文件中年份不是按顺序排列，要对它进行排列，用sorted(),
+new_year = sorted(year_country_data.keys())
+# 排列key也会排列对应的value
+# 循环key就是遍历它的每一个value
+for x in new_year:
+     # 进行排列
+"
+# 在循环外设置timeline函数，否则只出现一个时间图
+# from pyecharts.global import *
+# Timeline("theme":ThemeType.类型)设置时间轴主题需要导包
+timeline = Timeline({"theme": ThemeType.CHALK})
+# year是参数，是dict的key
+for year in year_country_data.keys():
+    # 对数据进行排序
+    year_country_data[year].sort(key=lambda y: y[1], reverse=True)
+    # 选取数据的前八名
+    new_year_country_data = year_country_data[year][:8]
+    x_data = []
+    y_data = []
+    # 获得x轴和y轴数据
+    for z in new_year_country_data:
+        x_data.append(z[0])
+        # 保留两位小数
+        z[1] = round(z[1], 2)
+        y_data.append(z[1])
+
+    # 翻转排序两组数据
+    x_data.reverse()
+    y_data.reverse()
+    bar = Bar()
+    bar.add_xaxis(x_data)
+    # label_opts= Label_Opts(position="right")设置bar图像的y轴数据显示位置
+    bar.add_yaxis("GDP(亿)", y_data, label_opts=LabelOpts(position="right"))
+    bar.reversal_axis()
+    bar.set_global_opts(
+        title_opts=TitleOpts(title=f"{year}年全球GDP前八", pos_left="center", pos_bottom="90%"),
+        toolbox_opts=ToolboxOpts(is_show=True)
+    )
+    # 加入timeline轴
+    timeline.add(bar, str(year))
+    timeline.add_schema(
+        # 间隔
+        play_interval=1000,
+        # 开启时间轴
+        is_timeline_show=True,
+        # 循环播放关闭
+        is_loop_play=False,
+        # 自动播放
+        is_auto_play=True
+    )
+    timeline.render("完结撒花.html")
+
+第二阶段
+一、设计类
+class 类名称:
+    # 属性
+    成员变量:
+    内容1 = None
+    # 行为
+    成员方法:
+     def 方法名称(self, 参数):
+         内容
+           通过self成员方法才能访问成员变量self.内容
+
+1、创建对象
+对象 = 类名称()
+可以直接调用
+对象.方法名称()
+也可以传参调用
+对象.方法名称(参数)
+对象属性赋值
+ 对象.内容1 = xxx
+类的方法类似于pyecharts
+bar = Bar()             变量 = 类名称
+bar.内容                 变量.调用内部函数，可以传参
+
+2、内置方法，也称为魔术方法
+__init__(self)方法，称之为构造方法,添加成员变量
+class Student:    
+    def __init__(self, name, age, tel):
+        self.name = name
+        self.age = age
+        self.tel = tel
+class Student:
+    # 可省略
+    # name = None
+    # age = None
+    # tel = None
+    def __init__(self, name, age, tel):
+        self.name = name
+        self.age = age
+        self.tel = tel
+        # stu_1 = Student("王源", 18, "13648575895")
+        # print(stu_1.name)王源 
+        # print(stu_1.age)18
+        # print(stu_1.tel)13648575895
+    # print(stu_1时)只会告诉你存放的地址
+    # 利用__str__方法就可以返回它的信息
+    def __str__(self):
+        return f"{stu_1.name},{stu_1.age},{stu_1.tel}"
+    # name，age，tel
+    
+    # 通过__lt__方法比较两个对象的某个内容比大小
+    def __lt__(self, other):
+        return self.age < other.age
+# print(stu_1 < stu_2)
+# Ture
+    # 通过__le__方法比较两个对象的某个内容比大小和等于 
+    def __le__(self, other):
+        return self.age <= other.age
+# print(stu_1 <= stu_2)
+# Ture
+    # 通过__ep__方法比较两个对象的某个内容是否相等
+    def __ep__(self, other):
+        return self.age == other.age
+# print(stu_1 == stu_2)
+# False
+stu_2 = Student("bob", 38, "45878754")
+stu_1 = Student("王源", 18, "13648575895")
+
+3、封装
+封装的意思是将现实世界的事物的属性和行为封装到类中表示成员变量和成员方法
+4、私有成员
+定义在类中的有成员变量和成员方法
+私有成员变量：__成员变量，私有成员方法：__成员方法
+内部能访问，外部访问会报错
+class Xm_por_max:
+    voltage = 1
+    def __voltage(self):
+        print(f"当前电压为{self.voltage}")
+    def tel_5g(self):
+        if self.voltage >= 1:
+            self.__voltage()
+        else:
+            print("电压过低，不支持5g")
+phone = Xm_por_max()
+phone.__voltage(self)
+# 报错
+phone.tel_5g()
+
+5、类的继承
+# 写法
+class 新类名称(要继承的类名称)
+对象等于新类时可以调用old类的成员变量和方法
+class Phone:
+    Id = None
+    producer = "hm"
+    def call_by_4g(self):
+        print("4g")
+class Phone_2022(Phone):
+    def call_by_5g(self):
+        print("5g")
+phone = Phone_2022()
+phone.call_by_4g()
+可以多继承，pass补全语法，不产生任何作用,让系统不报错，如果继承的内容有重名，使用先继承的内容
+class Phone_2022(1，2，3)
+    pass
+123中有重名内容，继承使用1的内容
+
+6、复写，对继承的成员不满意，可以继续写
+父类class phone:
+    id = 11235
+    def open(self):
+        pass
+子类class phone_new(phone):
+    id = 17859
+    通过phone.的方式在子类调取父类的内容
+    print(phone.id)
+    phone.open(self)
+    # super().id = phone.id
+    # super().open() = phone.open(self)
+这样调用就能调取new的id
+
+7、类型注解
+var_1 : 类型 = 内容
+跟注释差不多
+
+
+方法的注解
+def 函数名() ->返回类型:
+    pass
+
+8、多态
+子类在继承或复写时，和父类的类型相同
+抽象类
+有抽象方法的类叫抽象类
+抽象方法，空实现（pass）的方法
+class Student:
+    def speak(self):
+        pass
+抽象类的作用，以父类的方式做大纲，子类做具体实现内容
+
+9、多态练习
+# 处理数据
+__main.py__主要文件（第三步）
+from file_define import JsonFileread,TextFileReader
+from data_define import Record
+text_file_reader = TextFileReader("D:/BaiduNetdiskDownload/2011年1月销售数据.txt")
+json_data = JsonFileread("D:/BaiduNetdiskDownload/2011年2月销售数据JSON.txt")
+list1:[Record] = text_file_reader.read_data()# txt文件返回的列表
+list2:[Record] = json_data.read_data()# json返回的列表
+new_list:list[Record] = list1 + list2
+list_data_dict = {}    # 设置一个空字典，用它处理bar要的数据，字典有去同作用
+for x in new_list:
+if x.date in list_data_dict:# 因为new_list是list[Record]类型，x可以用点.调用成员方法
+        list_data_dict[x.date] += x.money
+    else:
+        list_data_dict[x.date] = x.money
+        
+
+
+file_define.py__读取文件的类（读取文件并将其封装返回）（第二步）
+import json
+from data_define import Record   # 用于向Record类传成员变量
+class FileRead:   # 定义一个抽象类，用来做顶层设计，确定有哪些内容
+    def read_data(self) -> list[Record]:
+        "读取文件的数据，读到每一个数据都转换成record对象，将他们封装到list返回"
+        Pass
+class TextFileReader(FileRead):    # 定义文本文件类来读取和封装文件
+    def __init__(self,path):
+        self.path = path   # 定义成员变量记录文件的数据
+    def read_data(self) -> list[Record]:  # 注释返回类型为列表是Record类，封装到Record类
+        f = open(self.path,"r",encoding="UTF-8")
+        record_list:list[Record] = []
+        for line in f.readlines():
+            line = line.strip()
+            data_list = line.split(",")
+            record = Record(data_list[0],data_list[1],int(data_list[2]),data_list[3])
+            # 向record传参，将数据封装到Record类，调用record.date就是所有的日期
+            record_list.append(record)
+            # 添加内容为Record的所有成员变量顺序传参
+        f.close()
+        return record_list   # 在这返回
+class JsonFileread(FileRead):# 定义json文件类来读取和封装文件
+    def __init__(self,path):
+        self.path = path
+    def read_data(self) -> list[Record]:
+        f = open(self.path, "r", encoding="UTF-8")
+        record_list: list[Record] = []
+        for line in f.readlines():
+            data_dict = json.loads(line)
+record=Record(data_dict["date"],data_dict["order_id"],int(data_dict["money"]),
+data_dict["province"])
+            record_list.append(record)
+        f.close()
+        return record_list
+if __name__ == '__main__':# 测试是否封装，该内容只会在此文件运行
+    text_fine_reader = TextFileReader("D:/BaiduNetdiskDownload/2011年1月销售数据.txt")
+    json_data = JsonFileread("D:/BaiduNetdiskDownload/2011年2月销售数据JSON.txt")
+    list1 = text_fine_reader.read_data()
+    list2 = json_data.read_data()
+    for l in list1:
+        print(l)
+    for l in list2:
+        print(l)
+        
+data_define.py__封装数据的类（第一步）
+# 创建一个封装数据的类
+# 先看要处理的数据来决定
+class Record:
+    def __init__(self,date,id1,money,province):
+        self.date = date          # 日期
+        self.id1 = id1            # id
+        self.money = money        # 钱
+        self.province = province  # 省份
+
+    def __str__(self):# 不添加__str__魔术方法只能看到储存地址，添加后可以看到内容
+        return f"{self.date},{self.id1},{self.money},{self.province}"
+        
+
+bar_main.py___生成柱状图的类（第四步）
+from prettytable.colortable import Theme
+from pyecharts.charts import Bar
+from pyecharts.globals import ThemeType
+from pyecharts.options import *
+from main import *
+bar = Bar(init_opts=InitOpts(theme=ThemeType.CHALK))# 设置主题
+x_data = []
+y_data = []
+for x in list_data_dict.keys():
+   x_data.append(x)
+for y in list_data_dict.values():
+   y_data.append(y)
+bar.add_xaxis(x_data)
+bar.add_yaxis("销售数据图",y_data,label_opts=LabelOpts(is_show=False))
+bar.set_global_opts(visualmap_opts=VisualMapOpts(
+                    is_show=True,
+                    max_= 103000,
+                    min_= 35000
+),
+                    legend_opts=LegendOpts(is_show=True),
+                    toolbox_opts=ToolboxOpts(is_show=True),
+                    title_opts=TitleOpts(title="2011年1-2月销售数据",pos_left="center",pos_bottom="1%"))
+bar.render("每日销售.html")
+
+二、MySQL数据库语法
+库 -- 表 -- 数据
+# 结构
+1、基础语法
+大小写不敏感
+-- 注释
+# 注释
+多行注释
+/* 注
+释
+*/
+2、DDL-库管理
+show databases;
+# 查看数据库
+use 库名称;
+# 使用数据库
+create database 数据库名称 [charset utf8];
+# 创建数据库，[]内容可写可不写
+select database();
+# 查看当前使用的数据库
+drop database 数据库名称;
+# 删除数据库
+
+3、关于表的操作
+use world;
+# 首先打开一个数据库
+show tables;
+# 查看有哪些表
+create table 表名称(
+    数据名 类型1,
+    数据名 类型2,
+    ......
+);
+# 创建一个表
+drop table 表名称;
+drop table if 表名称;
+# 删除表
+
+4、数据类型有
+int 数字
+float 浮点数
+varchar(长度,最多255) 文本，长度是数字 == str
+date 日期类型
+timestamp 时间戳类型
+
+5、向表的列添加values
+show databases;
+# 展示所拥有的库
+use world;
+# 使用world库
+insert into 表名称(id) values(1), (2), (3);
+# 向表的id列添加values(1), (2), (3)
+insert into student(id, age, name) values(4, 18, '王二'),(5, 18, '周杰伦');
+# 向表的id，age, name列添加values(4, 18, '王二'),(5, 18, '周杰伦')
+insert into student(age, name) values(18, '王二'),(18, '周杰伦');
+insert into student values(18, '王二'),(18, '周杰伦');
+
+6、-- 向student添加数据顺序传参
+show databases;
+use world;
+insert into student(id) values(1), (2), (3);
+-- 向student id列添加数据1，2，3
+insert into student(id, age, name) values(4, 18, '王二'),(5, 19, '周杰伦');
+-- 向student添加数据顺序传参
+insert into student(age, name) values(18, '王二'),(18, '周杰伦');
+-- 向student添加数据顺序传参
+insert into student values(5,18, '王二'),(6,18, '周杰伦');
+-- 向student添加数据顺序传参 == insert into student(id, age, name) values(5, 18, '王二'),(6, 18, '周杰伦')
+delete from student  where id > 4;
+-- 删除id大于4的行      = > < != <= >= ......
+delete from student  where age >= 18;
+-- 删除age大于18的行
+delete from student;
+-- 清空列表
+update student set name='李白' where age = 19
+-- 修改表；将age=19的行name替换成'李白'(输入文本类型只能用单引号)
+
+7、-- 输出表的列
+use world;
+select age from student;
+-- 输出student的age列
+select id,age from student;
+-- 输出student的id和age列
+select * from student;
+-- 输出student的所有列
+select * from student where age > 18
+-- 输出student表age>18的所有行
+
+8、函数控制
+use world;
+insert into students(id, name, age, grend) values (1,'bob',18,'男'),(1,'cat',21,'女'),(1,'dvd',30,'女'),(1,'box',14,'男');
+select grend,avg(age) from students where grend='男';
+-- group by出现的内容，和除函数外内容在select唯一出现内容
+-- 对students的grend的列等于男的项，求它的年龄平均指
+-- avg（）函数求平均值，sum（）求和，min（）最小值，max（）最大值，count（）求数量
+select grend,avg(age) from students group by grend:
+-- 对students表，根据grend分组，求age的平均值，并将grend列和求完平均数的age列打印
+
+9、打印表内容
+use world;
+select * from students where age>15 order by age asc;
+-- 打印students表根据age>15，升序排序
+select * from students where age>15 order by age desc;
+-- 打印students表根据age>15，降序排序
+select * from students limit 2,1
+-- limit n,m用来控制从第n行开始打印m行
+-- 执行顺序from -> where -> group by -> select -> order by -> limit 
+
+10、在python中写mysql代码
+from pymysql import Connect
+# 调用pymysql库
+conn = Connect(
+    host='localhost',
+    # 连接设备名称，"localhost"表示使用本机
+    port=3306,
+    # 连接端口默认为3306
+    user='root',
+    # 密码类型是root
+    password='密码',
+    密码是'密码'
+    autocommit=True
+    自动提交，确认
+)
+print(conn.get_server_info())
+# 查看是否连接mysql库
+cursor = conn.cursor()
+# 设置游标对象
+conn.select_db('world')
+# 游标对象使用的库
+#cursor.execute('create table test_pymysql(id int);')
+# 创建一个test_pymysql的列表
+cursor.execute("select * from students")
+# 查询这个表的内容
+result:tuple = cursor.fetchall()
+# 接收查询结果，以元组的形式反回
+for x in result:
+    print(x)
+cursor.execute("insert into students values(1,'cca',52,'女')")
+# 向students表添加数据
+conn.commit()
+# 确认写入
+conn.close()
+# 关闭数据库
+
+第三阶段、python高阶学习
+闭包
+优点：
+无需定义全局变量即可实现通过函数，持续访问修改某个值
+闭包使用的变量所用于函数内，难以被错误的修改调用
+# nonlocal 外部变量
+# 内部函数访问外部函数变量
+缺点：
+由于内部函数持续引用外部函数的值，所以导致这部分内存空间不被释放，一直占用内存
+def 函数名1[用来传入参数作为全局变量](变量):
+    def 函数名2(参数):
+        pass
+    return 函数名2
+def ac_au(inna=0):
+    def atm(num,de=True):
+        nonlocal inna
+        if de:
+            inna += num
+            print(f"存款+{num},账户余额{inna}")
+        else:
+            inna -= num
+            print(f"取款-{num},账户余额{inna}")
+return atm
+可以直接调用ac_au先运行外部，在运行内部
+fc = ac_au()
+fc(100)
+fc(800)
+fc(500,de=False)
+# 存款+100,账户余额100
+# 存款+800,账户余额900
+# 取款-500,账户余额400
+
+装饰器
+创建一个闭包函数，在闭包函数里调用目标函数
+装饰器的作用
+1.代码复用2.功能拓展3.结构清晰4.可以不改变函数做调整
+
+def a(func):
+    def f(*args):
+        print("求和函数")
+        func(*args)
+        print(func(*args))
+        print("求和完成")
+        return func
+    return f
+@a
+def aa(q,w):
+    return q + w
+@a
+def bb(o,p,u,i,j,k):
+    return o+p+u+i+j+k
+aa(1,5)
+bb(5,8,9,7,7,8)
+
+单例模式
+class Fp:
+    pass
+s1=Fp()
+另一文件
+from 文件 import s1
+可以直接使用s1
+工厂模式
+class Fz:
+    pass
+class Student(Fz):
+    pass
+class Num(Fz):
+    pass
+class Name(Fz):
+    pass
+class FZ:
+    def get(self,pf):
+        if pf == "s":
+            return Student()
+        elif pf == "nu":
+            return Num()
+        if pf == "nm":
+            return Name()
+cc = FZ()
+student = cc.get("nu")
+print(type(student))
+多线程工作
+                ——>线程1
+      ——>进程1
+                ——>线程2
+程序
+                ——>线程1
+      ——>进程2
+                ——>线程2
+                
+import threading
+cc = threading.Thread(targe=执行目标任务名，kwargs=以字典方式向任务传参，args=以元组方式对任务传参)
+def s(sin):
+    while True:
+        print(sin)
+def d(dac):
+    while True:
+        print(dac)
+cc1=threading.Thread(targe=s,args=("唱歌",))
+cc2=threading.Thread(targe=d,kwargs={"dac":"跳舞"})
+
+服务端开发和客户端开发
+socket
+服务端开发
+# 1.创建socket对象
+# import socket
+# socket_me = socket.socket()
+# 2.绑定socket到指定ip地址
+# socket_me.bind(host,port)
+# 3.服务端开始监听端口
+# socket_me.listen(backlog)
+# backlog为int类型，表示允许连接的数量，超出会等待，可以不填，自动给一个合理值
+# 4.接受客户端连接，获得连接对象
+# coon.address = socket_me.accept()
+# print(f"接收客户端连接，连接来自{address}")
+# accept是阻塞方法，没有连接则不再向下执行，返回一个二元元组(第一个对象是客户端和服务的连接对象，第二个对象是客户端地址信息)
+# 5.客户端连接后，通过recv方法接收客户端发送消息
+# 6.通过coon（客户端当次连接对象），调用send方法可以回复消息
+# 7.通过coon（客户端当次连接对象），和socket_me对象调用close方法关闭连接
+import socket
+socket_me = socket.socket()
+socket_me.bind(("localhost",8888))
+socket_me.listen(1)
+conn,address = socket_me.accept()
+# 第一个对象是客户端和服务的连接对象，第二个对象是客户端地址信息
+# a,b = socket_me.accept()可以直接接收它这就是二元元组
+print(f"接收客户端连接，连接来自{address}")
+while True:
+    data:str = conn.recv(1024).decode("UTF-8")
+    print(f"客户端发来的信息是{data}")
+    # recv接收参数大小是缓冲区大小一般1024
+    # recv返回一个字节组，bytes对象，不是字符串，是通过decode对象用utf-8解码成str
+    msg=input("对客户端回复的消息")
+    if msg == "exit":
+        break
+    conn.send(msg.encode("UTF-8"))#edcode将字符串对象解码为字节组对象
+conn.close()
+socket_me.close()
+
+客户端开发
+import socket
+socket_he = socket.socket()
+socket_he.connect(("localhost",8888))
+while True:
+    msg = input("客户端说")
+    if msg=="bey":
+        break
+    socket_he.send(msg.encode("UTF-8"))
+    date = socket_he.recv(1024).decode("UTF-8")
+    print(f"服务端回复{date}")
+socket_he.close()
+正则表达式
+判断使用单个字符串描述匹配某个句法规则的句法规则的字符串，常用来检索，替换那些某个符合某个模式(规则)的文本
+比如判断字符串是否是手机号,或者身份证号码，要写很多if，
+
+re模块三个主要方法
+import re
+# 从头匹配，如果内容不在开头，则返回None
+st = "python is the world best"
+rw = re.match("python",st)
+print(rw.span())# 返回起始下标
+print(rw.group())# 返回匹配内容
+# 搜索匹配，从头匹配，搜到第一个停止，只找一个
+rt = re.search("world",st)
+print(rt.span())
+print(rt.group())
+# findall全部匹配
+rx = re.findall("o",st)
+print(rx) #以列表形式返回所有内容
+
+元字符匹配
+.匹配任意字符，除了\n,.\
+[]匹配列举中的字符
+\d匹配数字0-9
+\D匹配非数字类型
+\s匹配空格tab键
+\S匹配非空白
+\w匹配单词字符a-z，A-Z，0-9，_
+\W匹配非单词字符
+*匹配前一个规则的字符出现0至无限次
++匹配前一个规则的字符出现1至无限次
+?匹配前一个规则的字符出现0或1次
+{m}匹配前一个规则的字符出现m次
+{m,}匹配前一个规则的字符出现最少m次
+{m,n}匹配前一个规则的字符出现m到n次
+^匹配字符串开头
+$匹配字符串结尾
+\b匹配一个单词的边界
+\B匹配非单词边界
+分类匹配
+|匹配左右任意一个表达式
+()将括号中字符做个分组
+str.title()首字母大写
+str.upper()全大写
+str.lower()全小写
+str.lstrip()删除左边空格
+str.rstrip()删除右边空格
+list.sort()改变原列表进行排序
+sorted(list)不改变原列表进行排序
+range(1,5)只能取到4
+import re
+r = "^[\w.+-]+(\.[\w.+-])*@(qq|163|gmail)(\.[\w.+-])+"
+# ^开头，\w表示a-zA-Z0-9,.+-表示还可能出现，]外的+表示出现1-无数次
+# ()括号是做分组，把每一块内容分开来看，\.表示.本身表示一定会出现.
+# \w表示a-zA-Z0-9,.+-表示还可能出现，]外的*表示出现0-无数次
+# @表示一定会出现@,()做分组，qq|163|gmail表示三个都可以出现
+# ()括号是做分组，把每一块内容分开来看，\.表示.本身表示一定会出现.
+# \w表示a-zA-Z0-9,.+-表示还可能出现，]外的+表示出现1-无数次
+
+正则表达练习题
+编写一个正则表达式，匹配所有以数字开头，以字母结尾，中间可以是任意字符（长度至少为3）的字符串。
+写出能匹配所有包含连续3个相同字符（如“aaa”“bbb”等）的字符串的正则表达式。
+构建一个正则表达式，用于匹配所有形如“abc - 123”（即三个字母 - 三个数字）格式的字符串。
+邮箱相关练习题
+编写正则表达式来匹配所有企业邮箱，企业邮箱后缀格式为“@公司名.com”（假设公司名只能是字母组成，长度为3 - 10个字符）。
+除了前面提到的QQ邮箱、163邮箱、Gmail邮箱，再创建一个正则表达式，匹配所有以数字开头和结尾，中间包含一个“@”符号和至少一个字符的邮箱格式。
+URL相关练习题
+写出一个正则表达式，匹配所有以“http://”或“https://”开头，域名部分只包含字母和数字（如.com、.net等顶级域名），后面可以跟路径（路径部分可以是任意字符）的URL。
+构造一个正则表达式，用于匹配所有形如“ftp://用户名:密码@服务器地址”格式的FTP连接字符串（其中用户名和密码只包含字母和数字，服务器地址可以是字母、数字和点组成）。
+文本内容匹配练习题
+在一篇英文文章中，编写正则表达式匹配所有以大写字母开头，后面跟着一个逗号和一个空格，然后是小写字母开头的单词（如“He, is”中的“He”）。
+给出一个正则表达式，匹配所有包含单词“apple”或者“banana”，且这两个单词前后可以有任意个空格的字符串。
+
+rg = "^\d.*[a-zA-Z]$"
+red = r"(.)\1{2}"
+fsd = r"^[a-zA-Z]{3} - [0-9]{3}$"
+fs = "^[\w]+@[a-zA-Z]{3,10}\.com"
+ass = "^\d.*@.*\d"
+uyy = "^http://|https://.*\.[a-zA-Z0-9]+.*" # "(http://|https://)[a-z0-9]*(\.[a-z0-9]+)*(/.*)?$"
+ad = "^ftg://[a-z0-9]+:[a-z0-9]+@[a-z0-9\.]+\.?$"
+jj = "[A-Z][a-zA-Z]+,\s[a-z][a-z]+"
+gbb = "\s*(apple|banana)\s*"
+
+递归
+import os
+# file_s = flie_s + get_file(new_f)	
+print(os.listdir("D:/c")) # 检阅所有文件	执行到这一步之前	
+file_s已经存在第一层所有文件,而不是文件夹
+print(os.path.isdir("D:/c/a")) # 判断是否是文件夹	相当于创建了一个新函数get_file1()去搜索第二层的文件里的内	
+print(os.path.exists("D:/c")) # 判断文件是否存在	容，当没有文件夹时	
+def get_file(path):	
+if os.path.isdir(new_f):	
+    file_s = []	file_s += get_file(new_f)	# file_s = flie_s + get_file(new_f)	
+if os.path.exists(path):	不再运行，那么返回file_s1就得到了get_fie1()的新内容	
+    for x in os.listdir(path):	然后通过file_s+=get_file(new_f)进行一次汇总	
+new_f= path + "/" + x得file s2，进行汇总如果第一层还有文件夹就重复执行这一块创建新函数get_file2,获
+if os.path.isdir(new_f):	实际上	
+# file_s = flie_s + get_file(new_f)	else:	
+  file_s.append(new_f)
+  file_s += get_file(new_f)	只是搜取了第一层的文件	
+else:
+    file_s.append(new_f)
+else:
+  print("目标文件不存在") return [] return file_s
+  print(get_file("D:/c"))
