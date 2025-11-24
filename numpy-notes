@@ -1,0 +1,854 @@
+目  录
+ numpy简介：	1
+ 一：基础	2
+ 1.np.arange(a,b,c)	2
+ 2.np.linspace(a,b,c)（此方法创建全为浮点数类型）浮点数中整数部分用10.表示 	2
+ 3.np.zeros((a,b))	2
+ 4.np.eye(a)	2
+ 5.np.rand# 生成0-1之间的数的数组	2
+ 6.np.randn(a,b) 生成符合正态分布的实数	3
+ 7.np.randint(a,b,c)生成5个0~9数据	3
+ 二：进阶	3
+ 1.数组的切片	3
+ 2.二维切片	4
+ 3.布尔切片及赋值运算	4
+ 4.赋值运算	5
+ 5.练习	5
+6.数组的运算	6
+7.np.dot（）函数（点积）	7
+ 8.arr.reshape方法和arr.T方法，concatenate方法	9
+(1).reshape在不改变元素总量的情况下，按re结构重新绘制形状	9
+(2).arr.T将形状倒置	9
+ (3)np.concatenate	9
+ (4)np.split拆分数组	10
+ (5)补充np.array_split,按份数分自动平均，不需要精准平均个数	11
+9.np.sum求和,np.mean平均值,np.std标准差,np.max最大值,np.min最小值	11
+(1)np.sum求和	11
+(2)np.mean求平均值	11
+(3)np.std求标准差	11
+(4)np.max求最大值	11
+(5)np.min求最小值	12
+ 10.np.argmax和np.argmin是查询最大值最小值及其位置	12
+ 11.np.isnan检查缺失值,将所有数据转换成布尔类型，有缺失时表示为True	12
+ 12.数据分析师精通（涉及pandas）	13
+ (1)先标记,标记前提是是个浮点数数组，用arr.astype(float)更改	13
+ (2)转化成pd，能理解的一维数据pd.Series，二维数据pd.DataFrame	13
+ (3)再用arr.dropna改变，针对错误少的情况	13
+(4)arr.fillna针对错误少的情况	13
+13.np.where（）根据条件查找下标	14
+14.np.full()	15
+np.full((a,b)#此处填形状,填充数字)	15
+15.np.pad	15
+综合练习	15
+
+
+numpy简介：
+
+什么是数组？
+数组就可以理解成数据类型相同的列表
+处理数值方便快捷
+怎么将列表转换成ndarray:数组类型
+import numpy as np
+a = [.....]#必须是同种类型
+b = numpy.array(a)
+print(f"数组b的值为{b}，数组b的维度为{b.ndim},数组b的类型为{b.dtype}，数组b的形状为{b.shape}")
+# 数组b的值为[1 2 3 4]，数组b的维度为1,数组b的类型为int64，数组b的形状为(4,)
+维度表示几维数据，类型是64位int，数据形状理解成几行几列（4，3）四行三列
+注意，数组用空格分割
+
+一：基础
+
+如何创建一个数组
+
+1.np.arange(a,b,c)
+
+a = np.arange(初始，末尾，步长)#取不到末尾
+生成一个数组
+aa = np.arange(20,step=2).reshape(2,5)
+print(aa)
+[[ 0  2  4  6  8]
+ [10 12 14 16 18]]
+
+2.np.linspace(a,b,c)（此方法创建全为浮点数类型）浮点数中整数部分用10.表示
+
+a = np.linspace(初始，末尾，分成几等份)#能取到末尾
+就是初始末尾，生成几个数据自动平均分
+a = np.linspace(5,20,6)
+print(a)
+# [ 5.  8. 11. 14. 17. 20.]
+快速印象，步长等于(b-a)/（c-1）
+a = np.linspace(初始，末尾，分成几等份，endpoint=False)#不能取到末尾
+快速印象，步长等于(b-a)/c
+
+3.np.zeros((a,b))
+
+e = np.zeros((5,3))
+print(e)
+生成五行三列的0列表，一般用于初始化
+
+4.np.eye(a)
+
+f = np.eye(3)
+print(f)
+生成3*3矩阵，对角线为1，其余为0的单位矩阵，适合矩阵计算。
+
+5.np.rand# 生成0-1之间的数的数组
+
+z = np.random.rand(3,4)
+print(z)
+# 生成3行4列的0-1之间的数的数组
+[[0.49062357 0.79359276 0.38811409 0.52137357]
+ [0.57559457 0.73549428 0.10021977 0.32738436]
+ [0.82034665 0.25348267 0.20563915 0.51662474]]
+
+6.np.randn(a,b) 生成符合正态分布的实数
+
+ g = np.random.randn(5,4)
+ # 生成5行4列的符合正态分布的实数
+ print(g)
+[[ 2.38288922  0.86942382 -0.73033055 -0.22510337]
+ [ 1.44655591 -2.00227754  1.33079902  1.15701026]
+ [-0.81746968  0.19629937  0.17206221  0.60879503]
+ [ 1.42161898  0.49683737 -1.88444618 -0.04510054]
+ [ 0.67406111  0.03246315  0.63408766 -0.13929679]]
+
+模拟客户，假如预测1000个用户购买情况，均值是50，标准差是10（上下波动），如何去写
+tr = 50 + 10 * np.random.randn(1000)
+tt = np.round(tr,2)# 保留两位小数用
+print(tt)
+模拟客户，假如预测100个用户,10天购买情况，均值是50，标准差是10（上下波动），如何去写
+tr = 50 + 10 * np.random.randn(100,10)
+tt = np.round(tr,2)# 保留两位小数用
+print(tt)
+
+7.np.randint(a,b,c)生成5个0~9数据
+
+h = np.random.randint(0,10,5,size=(50,))
+print(h)
+[7 5 0 1 4]
+# 生成size个左闭右开的随机整数
+# 随机触发事件时使用
+# 数据分析师会干什么，查看它的维度，总元素数，类型，数组形状
+
+二：进阶
+
+1.数组的切片
+类似于字符串的切片，array[a:b:c]起始，末尾，步长，左闭右开
+bb = np.array([
+    [1,2,3,4],
+    [4,5,6,5],
+    [7,8,9,7]
+])
+# 整体切片和离散型切片
+print(bb[:,1:3])#[a,b)
+# [[2 3]
+#  [5 6]
+#  [8 9]]
+# 所有行第1列到下标2列
+# 离散型切片
+print(bb[:,[0,3]])
+# [[1 4]
+#  [4 5]
+ # [7 7]]
+# 所有行第0列和下标3列
+cc = np.array([1,2,3,4,5,6,7,8,9])
+print(cc[1:4:2])
+
+2.二维切片
+print（tt[a][b]）意思也指a行，b列
+tr = np.array([
+    [1,2,3],
+    [4,5,6],
+    [7,8,9]
+])
+print(tr[1:3,1:2])
+[[5]
+ [8]]
+ 如果是tr[2,1:2],就是先取其第1层第3个元素，再进行切片
+ 就是它本身是个括号括着括号的，每一层都是一个维度，那么2则表示取到了第一层的第三个数据
+ 0开头嘛，然后再进行切片
+以此类推，其实就是先取tt的第一层，第二层。。。。。，再进行切片
+如果tr[a,b,c,.......]均是：切片形式，则不会降维度，如果当中有一个数字形式就会降1维度
+tr = np.array([
+    [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9]
+],[
+    [10,20,30],
+    [40,50,60],
+    [70,80,90]
+]
+])
+print(tr[1,1:,:2])
+#[[40 50]
+ [70 80]]
+意思就是先取到了第一层第二个元素
+[    [10,20,30],
+    [40,50,60],
+    [70,80,90]    ]
+然后取它第二层2位置到结束的切片
+[40,50,60],
+    [70,80,90]
+其次是对第三层开始切片
+取开始到2的位置取不到2---->这一步是要对所有元素都要进行合并成一个数组
+[[40 50]
+ [70 80]]
+因为有一个数字所以降了一维度
+
+3.布尔切片及赋值运算
+
+arr条件
+tr = np.array([
+    [1,2,3],
+    [4,5,6],
+    [7,8,9]
+])
+d = tr>3
+[[False False False]
+ [ True  True  True]
+ [ True  True  True]]
+#d表示此数组大于3的数是true
+print(tr[d])  表示此数组大于3的数
+#[4 5 6 7 8 9]
+c = tr < 6
+[[ True  True  True]
+ [ True  True False]
+ [False False False]]
+#c表示此数组小于6的数true
+print(tr[c])  表示此数组小于6的数
+#[1 2 3 4 5]
+print(tr[(d)&(c)])
+表示大于3且小于6的数
+[4 5]
+print(tr[(d)|(c)])
+表示大于3或小于6的数
+[1 2 3 4 5 6 7 8 9]
+
+4.赋值运算
+
+先定位，后改值
+先定义一个变量用来确定要求的值所在范围，进行切片并改值
+arr[（条件1）符号 （条件2）]
+将大于6的值改为0，小于等于的3的加100
+tr = np.array([
+    [1,2,3],
+    [4,5,6],
+    [7,8,9]
+])
+a = tr>6
+tr[a] = 0
+print(tr)
+#[[1 2 3]
+ [4 5 6]
+ [0 0 0]]
+b = tr<=3
+tr[b]+= 100
+print(tr)
+#[[101 102 103]
+ [  4   5   6]
+ [  7   8   9]]
+ 改行的对应列所有元素
+ 将第一行大于等于2的列对应的第二行数字全改成0
+
+
+5.练习
+
+题目1：切片+条件索引综合
+已知数组 arr = np.arange(30).reshape(5,6)（5行6列，元素从0到29）：
+1.用切片取出第2-4行（含）、第3-5列（含）的子数组；
+2.在原始数组 arr 中，找出所有 大于15且能被4整除 的元素，并用这些元素组成新数组；
+3.将原始数组中 第1列大于10的行 对应的 第4列元素 全部改成999。
+
+题目2：复杂切片+逻辑运算
+已知二维数组 data = np.random.randint(0, 50, size=(6,4))（6行4列，0-49的随机整数）：
+1.取出数组中 偶数行（0、2、4行）且奇数列（1、3列，索引从0开始） 的元素；
+2.计算这些元素中 大于20且小于40 的元素个数；
+3.给原始数组中 所有能被3整除的元素 加上100。
+import numpy as np
+arr = np.arange(30).reshape(5,6)
+print(arr[1:4,3:6])
+aa = arr>15
+bb =arr%4
+print(arr[(aa) & (bb==0)])
+a = arr[:,0]>10
+arr[a,3] = 999
+print(arr)
+crr = arr[a][:,4]
+data = np.random.randint(0,50,size=(6,4))
+cc = data[::2,1::2]
+c = cc>20
+d = cc<40
+print(len(cc[c & d]))
+dd = data%3==0
+data[dd] += 100
+print(data)
+
+6.数组的运算
+
+numpy运算都是向量化，对整体操作，python是线性操作
+arr1 = np.array([1,2,3,4])
+arr2 = np.array([5,6,7,8])
+print(arr + 2)
+[3 4 5 6]
+print(arr1 - arr2)
+[-4 -4 -4 -4]
+print(arr1 * arr2)
+[ 5 12 21 32]
+print(arr2 / 2)
+[2.5 3.  3.5 4. ]
+俩数组之间进行运算，由于广播效应,应该保持最后一个维度，维度相同或有一个为1，否则报错
+arr1 = np.array([1,2,3,4])
+arr2 = np.array([[4,5,6,5],[4,7,5,8]])
+print(arr1+arr2)
+# [[ 5  7  9  9]
+#  [ 5  9  8 12]]
+（    +++++++++++++）
+矩阵运算，用于线性关系，比如数据投影，回归。
+
+7.np.dot（）函数（点积）
+
+简单练习题，有三个客户买东西，巧克力15元，可乐4元，薯片8元，优惠规则如下，如果巧克力大于等于7个打九折，可乐大于等于6瓶打8.5折
+薯片大于等于5袋8折,分别进价为8,2,4元
+1.打印未优惠的每一个用户的利润和售价信息表,并求出总利润总售价
+思路:因为跟钱有关,大框架应该是数量*价格=总
+所以先根据条件列出两个矩阵
+首先根据点积二维矩阵形状为(m,n)和(n,p),点积完形状为(m,p),确定其框架
+相同之处在于用户数量一样,所以n作为用户数量
+                 个数                                           价格
+        用户1   用户2    用户3                            进价     售价
+巧克力                                           用户1
+可乐                                    *        用户2
+薯片                                             用户3
+[2 5 7]    [8 15]
+[4 6 8]    [2 4]
+[3 1 6]    [4 8]
+最后点积
+2.打印优惠后的每一个用户的利润和售价信息表,并求出总利润总售价
+dot是两个矩阵进行点乘,矩阵2是不符合要求的,应该要通过矩阵1判断创建优惠后的矩阵2
+因为原理还是个数*价格嘛,我只需要一个优惠后的价格矩阵跟矩阵1点积
+优惠不优惠跟进价没关系,所以可以分步骤进行点积,先点积进价的
+再根据数量条件创建新折扣矩阵
+import numpy as np
+# 此矩阵存放，用户购买的三个商品数量
+arr1 = np.array([
+    [2,5,7],
+    [4,6,8],
+    [3,1,6]
+])# 此矩阵存放的是三个商品的进价和售价
+arr2 = np.array([
+    [8,15],
+    [2,4],
+    [4,8]
+])
+# 点积即可得到不优惠的信息表
+print(np.dot(arr1,arr2))
+#            进价 售价
+# 用户1[[ 54 106]
+# 用户2[ 76 148]
+# 用户3[ 50  97]]
+z_arr = np.dot(arr1,arr2)
+z_l = sum(z_arr[:,0])
+z_r = sum(z_arr[:,1])
+print(z_l)
+print(z_r)
+# 创建初始化矩阵(进价的)
+# 改不用点积,用简单的个数*进价
+arr3=np.zeros((1,3))
+# 进价不变(依旧是二维数据)
+arr3[:,0]=8
+arr3[:,1]=2
+arr3[:,2]=4
+print(arr3)
+j=arr1*arr3
+print(j)
+# [[16. 10. 28.]
+#  [32. 12. 32.]
+ # [24.  2. 24.]]
+#总进价(因为是二维,取所有行第0个)
+j_h = sum(j)# 默认列相加
+# [72. 24. 84.]
+j_z=sum(j_h)
+print(j_z)
+# 180.0
+# 售价根据条件改变
+# 根本还是根据数量创建一个优惠后的价格矩阵形状应该与数量形状一致
+# 既然要进行点积虽然形状一样但是我觉得意义一样得按照原则,(m,n)*(n,p)=(m,p)n一致,就是都有用户,所以优惠价格矩阵行依然表示用户,列表示价格
+# 初始化价格矩阵
+arr4=np.zeros((3,3))
+arr4[0,:]=[15,4,8]
+arr4[1,:]=[15,4,8]
+arr4[2,:]=[15,4,8]
+# print(arr4)更改得到原价矩阵
+# [[15.  4.  8.]
+#  [15.  4.  8.]
+#  [15.  4.  8.]]
+# 更改
+# aa表示第0行所有列大于等于7,筛选巧克力优惠的顾客
+aa = arr1[0,:]>=7
+# arr4[aa,0]表示筛选aa行,第0列,aa又表示[False False True],所以筛到了第三行,更改等于这个位置打九折*0.9
+arr4[aa,0] = arr4[aa,0]*0.9
+# bb表示第1行所有列大于等于6,筛选可乐优惠的顾客
+bb = arr1[1,:]>=6
+# arr4[bb,0]表示筛选bb行,第1列,bb又表示[False True True],所以筛到了第二-三行,更改等于这个位置打八五折*0.85
+arr4[bb,1] = arr4[bb,1]*0.85
+# cc表示第2行所有列大于等于5,筛选薯片优惠的顾客
+cc = arr1[2,:]>=5
+# arr4[cc,0]表示筛选cc行,第2列,cc又表示[False False True],所以筛到了第三行,更改等于这个位置打八折*0.8
+arr4[cc,2] *= 0.8
+# print(arr4)得到优惠矩阵
+# [[15.   4.   8. ]
+#  [15.   3.4  8. ]
+#  [13.5  3.4  6.4]]
+# [2,5,7],
+#     [4,6,8],
+#     [3,1,6]
+print(np.dot(arr1,arr4))
+# [[199.5  48.8 100.8]
+#  [258.   63.6 131.2]
+#  [141.   35.8  70.4]]点积完发现算重了.
+# 前面误以为需要点积,其实只是简单的价格*售价,进价也是如此,由此得出,一个矩阵中出现三个或三种以上用点积,剩下不管
+# 置换行和列,保持元素一致,数量*单价
+arr4 = arr4.T
+print(arr4)
+# [[15.  15.  13.5]
+#  [ 4.   3.4  3.4]
+#  [ 8.   8.   6.4]]
+s = arr1*arr4
+print(s)
+# [[30.  75.  94.5]
+#  [16.  20.4 27.2]
+#  [24.   8.  38.4]]
+ss = sum(s)
+print(ss)# 得到每个用户的售价
+z_s = sum(ss)
+print(z_s)# 得到优惠完总售价
+
+
+8.arr.reshape方法和arr.T方法，concatenate方法
+(1).reshape在不改变元素总量的情况下，按re结构重新绘制形状
+
+import numpy as np
+arr1 = np.array([
+    [2,5,7],
+    [4,6,8],
+    [5,7,9],
+    [8,9,7],
+    [9,8,7],
+    [10,9,8],
+])
+print(arr1.ndim,arr1.shape,arr1.dtype,arr1.size)
+arr_r = arr1.reshape(3,6)
+print(arr_r)
+# 在不改变元素总量的情况下，按re结构重新绘制形状
+reshape可以写成（-1，1）表示待计算行1列的表，相当于函数里的，函数名（*arg）
+# [[ 2  5  7  4  6  8]
+#  [ 5  7  9  8  9  7]
+#  [ 9  8  7 10  9  8]]
+
+(2).arr.T将形状倒置
+
+arr_T = arr1.T
+print(arr_T)
+# 将形状倒置，二维表就是行列交换，shape（h0,h1,h2,h3......hn）变成shape（hn......,h3,h2,h1,h0）
+# [[ 2  4  5  8  9 10]
+#  [ 5  6  7  9  8  9]
+#  [ 7  8  9  7  7  8]]
+
+(3)np.concatenate
+
+arr1 = np.array([
+    [2,5,7],
+    [4,6,8],
+    [3,1,6]
+])
+arr2 = np.array([
+    [5,8,15],
+    [3,2,4],
+    [2,4,8]
+])
+arr3 = np.concatenate((arr1,arr2),axis=0)
+# 按行拼接，拼接增加行数，列数必须相同
+print(arr3)
+# [[ 2  5  7]
+#  [ 4  6  8]
+#  [ 3  1  6]
+#  [ 5  8 15]
+#  [ 3  2  4]
+#  [ 2  4  8]]
+arr4 = np.concatenate((arr1,arr2),axis=1)
+# 按列拼接，拼接增加列数，行数必须相同
+print(arr4)
+# [[ 2  5  7  5  8 15]
+#  [ 4  6  8  3  2  4]
+#  [ 3  1  6  2  4  8]]
+以此类推，按哪个轴拼接，哪个元素数就得相同，或者为1
+多维情况，拼接哪个轴，其他轴元素个数一致
+
+(4)np.split拆分数组
+
+arr7 = np.array([
+    [2,5,7],
+    [4,6,8],
+    [3,1,6],
+    [5,4,3]
+])
+# arr1,arr2 = np.split(arr7,个数（必须平均）或者[a,b]在哪些位置放挡板拆分，axis=0按什么拆分)
+sp1_arr7, sp2_arr7= np.split(arr7,2,axis=0)
+print(sp1_arr7)
+# [[2 5 7]
+#  [4 6 8]]
+print(sp2_arr7)
+# [[3 1 6]
+#  [5 4 3]]
+sp3_arr7, sp4_arr7, sp5_arr7= np.split(arr7,[1,2],axis=0)
+print(sp3_arr7)# [[2 5 7]]
+print(sp4_arr7)# [[4 6 8]]
+print(sp5_arr7)
+# [[3 1 6]
+#  [5 4 3]]
+
+(5)补充np.array_split,按份数分自动平均，不需要精准平均个数
+
+sp3_arr7, sp4_arr7, sp5_arr7= np.array_split(arr7,3,axis=0)#注意：此处split（arr7,3）3表示平均拆成3份，向前兼容。也可以放列表挡板
+print(sp3_arr7)
+# [[2 5 7]
+#  [4 6 8]]
+print(sp4_arr7)# [[3 1 6]]
+print(sp5_arr7)# [[5 4 3]]
+
+9.np.sum求和,np.mean平均值,np.std标准差,np.max最大值,np.min最小值
+
+# arr2表示四个用户年龄以及消费金额
+arr2 = np.array([
+                    [22,55],
+                    [25,105],
+                    [27,76],
+                    [26,207]
+])
+(1)np.sum求和
+c = np.sum(arr2)
+print(c)# 对整个数组进行计算和
+# 543
+a = np.sum(arr2[:,1])
+print(a)# 对数组的第一列求和
+# 443
+(2)np.mean求平均值
+b = np.mean(arr2)
+print(b)# 对整个数组求平均值
+# 67.875
+d = np.mean(arr2[:,1])
+print(d)# 对数组的第一列求平均值
+# 110.75
+
+(3)np.std求标准差
+
+e = np.std(arr2)
+print(e)# 对整个数组求标准差
+# 59.511422222964896
+f = np.std(arr2[:,0])
+print(f)# 对数组的第0列求标准差
+# 1.8708286933869707
+
+(4)np.max求最大值
+
+A = np.max(arr2)
+print(A)# 对整个数组求最大值
+# 207
+B = np.max(arr2[:,0])
+print(B)# 对数组的第0列求最大值
+# 27
+
+(5)np.min求最小值
+
+C = np.min(arr2)
+print(C)# 对整个数组求最小值
+# 22
+D = np.min(arr2[:,1])
+print(D)# 对数组的第1列求最小值
+# 55
+
+
+10.np.argmax和np.argmin是查询最大值最小值及其位置
+
+针对argmax和argmin其原理是将整个数组扁平化
+[
+   [22,55],
+   [25,105],                  ---->           [22,55,25,105,27,76,26,207]
+  [27,76],
+  [26,207]
+]
+bb = np.argmax(arr2[:,1])
+print(bb)
+# 3
+print(arr2[bb])
+# [ 26 207]
+cc = np.argmin(arr2)
+print(cc)
+# 0
+
+11.np.isnan检查缺失值,将所有数据转换成布尔类型，有缺失时表示为True
+
+[
+   [22,np.nan],
+   [25,np.nan],                  
+ [np.nan,76],
+   [26,207]
+]
+a = np.isnan(arr1)
+print(a)
+# [[False  True]
+#  [False  True]
+#  [ True False]
+#  [False False]]
+print(arr1[~a])
+b = np.sum(np.isnan(arr1))
+c = np.sum(np.isnan(arr1),axis=0)
+d = np.sum(np.isnan(arr1),axis=1)
+print(b)#统计总缺失值
+# 3
+print(c)#按列计算缺失，第一列有1个，第二列有两个
+# [1 2]
+print(d)#按行计算缺失，第一行有1个，第二行有1个，第三行有1个，第四行有0个
+# [1 1 1 0]
+
+12.数据分析师精通（涉及pandas）
+
+arr1 = np.array([
+        [22,105],
+        [23,10],
+        [58,255],
+        [26,207]
+])
+# 复制避免出错
+clean_arr1 = arr1.copy().astype(float)
+print(clean_arr1)
+
+(1)先标记,标记前提是是个浮点数数组，用arr.astype(float)更改
+
+a = (clean_arr1[:,0]>30)
+b = (clean_arr1[:,1]<100)
+# 先定位到第0列里，筛选第0列>30的行
+clean_arr1[:,0][a]=np.nan
+# 将第1列小于100的数据行，再定位它的第1列元素
+clean_arr1[b,1]=np.nan
+print(clean_arr1)
+
+(2)转化成pd，能理解的一维数据pd.Series，二维数据pd.DataFrame
+
+clean_arr2 = pd.DataFrame(clean_arr1)
+print(clean_arr2)
+      0      1
+0  22.0  105.0
+1  23.0    NaN
+2   NaN  255.0
+3  26.0  207.0
+
+(3)再用arr.dropna改变，针对错误少的情况
+
+(axis=删除nan所在的行或者列，how = all表示行列都为nan，为any是任意有都删)
+# clean_arr2 = clean_arr2.dropna(axis=0,how='any')
+# print(clean_arr2)
+# #       0      1
+# # 0  22.0  105.0
+# # 3  26.0  207.0
+
+(4)arr.fillna针对错误少的情况
+
+1.填充平均数
+
+dd = clean_arr2.fillna(clean_arr2.mean())
+print(dd)
+           0      1
+0  22.000000  105.0
+1  23.000000  189.0
+2  23.666667  255.0
+3  26.000000  207.0
+
+2.填充中位数
+
+cc = clean_arr2.fillna(clean_arr2.median())
+print(cc)
+      0      1
+0  22.0  105.0
+1  23.0  207.0
+2  23.0  255.0
+3  26.0  207.0
+
+3.改成与上一行一致
+
+aa = clean_arr2.ffill()
+print(aa)
+#       0      1
+# 0  22.0  105.0
+# 1  23.0  105.0
+# 2  23.0  255.0
+# 3  26.0  207.0
+
+4.改成与下一行一致
+
+bb = clean_arr2.bfill()
+print(bb)
+#       0      1
+# 0  22.0  105.0
+# 1  23.0  255.0
+# 2  26.0  255.0
+# 3  26.0  207.0
+13.np.where（）根据条件查找下标
+arr1 = np.array([
+    [2,5,7],
+    [4,6,8],
+    [5,7,9],
+    [8,9,7],
+    [9,8,7],
+    [10,9,8]
+])
+f=arr1[:,1:3]>7
+print(np.where(f))
+# 得到行索引和列索引，where，出的结果是个元组，内容是符合内容的行索引和列索引下标
+# (array([1, 2, 3, 4, 5, 5]), array([1, 1, 0, 0, 0, 1]))
+print(np.where(f)[0])
+# 取0就拆了一层的下标0，只筛选到行索引
+# [1 2 3 4 5 5]
+print(np.where(f)[1])
+# 取1就拆了一层的下标1，只筛选到列索引
+# [1 1 0 0 0 1]
+
+14.np.full()
+np.full((a,b)#此处填形状,填充数字)
+arr1 = np.full((3,2),5)
+print(arr1)
+[[5 5]
+ [5 5]
+ [5 5]]
+15.np.pad
+pad(arr,位置,不管，constant_values=0，填充字符)
+((0,0),(5,0))表示第一个括号代表行，上边填充0行，下边填充0行，第二个括号，代表左边填充5列，右边填充0列
+arr1 = np.full((3,3),8)
+print(arr1)
+[[8 8 8]
+ [8 8 8]
+ [8 8 8]]
+arr2 = np.pad(arr1,((0,0),(2,3)),'constant',constant_values=0)
+print(arr2)
+[[0 0 8 8 8 0 0 0]
+ [0 0 8 8 8 0 0 0]
+ [0 0 8 8 8 0 0 0]]
+综合练习
+"""
+模拟电商平台50个用户的3类消费数据（以下数据需用NumPy生成），完成从“数据生成→清洗→分析→计算”的全流程，具体要求如下：
+具体步骤（每步对应你的笔记知识点）：
+"""
+import numpy as np
+import pandas as pd
+1.生成基础数据（数组创建+随机数+reshape）：
+np.random.seed(1)
+ - 生成50个用户的「年龄」：18-60岁的随机整数，形状(50,)；
+user_d = np.random.randint(18,61,size=(50,))
+user_d = user_d.reshape(50,1)
+ - 生成50个用户的「3类商品消费金额」：符合正态分布（均值100元，标准差30元），保留2位小数，形状(50,3)；
+user_money = np.random.randn(150)*30 + 100
+user_money = user_money.round(2)
+user_money = user_money.reshape(50,3)
+ - 生成50个用户的「是否会员」：0（非会员）或1（会员）的随机整数，形状(50,)；
+user_vip = np.random.randint(0,2,size=(50,))
+user_vip = user_vip.reshape(50,1)
+ - 将以上3个数组合并为一个二维数组 user_data ，形状(50,5)，列顺序为：[年龄, 商品1金额, 商品2金额, 商品3金额, 是否会员]。
+user_data = np.concatenate((user_d,user_money,user_vip ), axis=1)
+ print(user_data)
+
+2. 数据清洗（条件判断+缺失值处理）
+标记异常值：年龄>55或<20的视为异常，商品消费金额<0的视为异常，将这些异常值替换为 np.nan （需先转float类型）；
+user_data1 = user_data.copy().astype(float)
+f1 = user_data1[:,0]>50
+f2 = user_data1[:,0]<20
+f3 = user_data1[:,1:3]<0
+user_data1[:,0][(f1)|(f2)]=np.nan
+user_data1[:,1:3][f3] = np.nan
+ print(user_data)
+ - 统计缺失值：计算总缺失值数量、按列统计缺失值数量；
+is_nan = np.isnan(user_data1)
+z = np.sum(is_nan)
+ print(z)
+c = np.sum(is_nan,axis=0)
+ print(c)
+ - 填充缺失值：年龄用「非缺失值的中位数」填充，商品消费金额用「非缺失值的均值」填充。
+user_data1 = pd.DataFrame(user_data1)
+user_data1 = user_data1.fillna(user_data1.median())
+ print(user_data1)
+
+3. 数据切片与筛选（切片+布尔索引）：
+ - 切片1：取出前20个用户的「商品1+商品2金额」，形状(20,2)；
+m_user_data = user_data[0:20,1:3]
+ print(m_user_data)
+ - 切片2：取出「会员用户」（第5列=1）的「年龄+商品3金额」，形状(N,2)（N为会员数）；
+f4 = user_data[:,4]==1
+cc = user_data[:,3:5][f4]
+ print(cc)
+ - 筛选：找出「商品1金额>120且商品2金额<80」的用户，保留其所有列数据。
+f5 = (user_data[:,1]>120) & (user_data[:,2]< 80)
+ print(user_data[f5])
+
+4. 数据运算与统计（广播+点积+统计函数+argmax/argmin）：
+计算每个用户的「总消费金额」：3类商品金额求和，新增为 user_data 的第6列（用广播或sum实现）；
+第1个方法
+aa = user_data[:,1]+user_data[:,2] + user_data[:,3]
+aa = aa.reshape(50,1)
+print(aa)
+ 第2个方法
+aa = np.zeros((50,1))
+for x in range(50):
+    aa[x] = np.sum(user_data[x, 1:4])
+ print(aa)
+num_user = np.concatenate((user_data,aa),axis=1)
+print(num_user)
+ - 计算「会员vs非会员」的总消费金额均值、标准差（按第5列分组统计）；
+命名反思：命名容易乱怎么办，类型加属性叠加储存名
+f6 = user_data[:,4]==0
+ f4 = user_data[:,4]==1
+m_v = user_data[:,1:4][f6]
+m_fv = user_data[:,1:4][f4]
+m_v = np.sum(m_v,axis=1)
+m_fv = np.sum(m_fv,axis=1)
+m_v_me = np.mean(m_v)
+m_v_me=m_v_me.round(2)
+m_fv_me = np.mean(m_fv)
+m_fv_me = m_fv_me.round(2)
+ print(m_v_me)
+ print(m_fv_me)
+m_v_std = np.std(m_v)
+m_fv_std = np.std(m_fv)
+ print(m_v_std)
+ print(m_fv_std)
+ - 找出「总消费金额最高」的用户，输出其完整数据（用argmax）；
+max_m = np.sum(user_data[:,1:4],axis=1)
+max_m = np.argmax(max_m)
+max_user = user_data[max_m,:]
+print(max_user)
+ - 假设有3类商品的「佣金比例」：[0.1, 0.08, 0.12]，计算每个用户的「佣金总额」（用点积实现：3类商品金额 × 对应佣金比例，求和）。
+user_mz  = user_data[:,1:4]
+y_money = np.array([
+    [0.1],
+    [0.08],
+    [0.12]
+])
+y_moneyz = np.dot(user_mz,y_money)
+print(y_moneyz)
+5. 形状操作（concatenate+split）：
+- 将 user_data 按「会员/非会员」拆分为两个数组： member_data （会员）和 non_member_data （非会员）；
+member_data = user_data[f4]
+non_member_data = user_data[f6]
+print(member_data)
+print(non_member_data)
+- 将两个数组按列拼接（axis=1），形成新数组 combined_data （需确保行数一致，若不一致用 array_split 调整）。
+print(len(member_data))#22
+non1,non2 = np.array_split(non_member_data,[len(member_data)])
+combined_data = np.concatenate((member_data,non1),axis=1)
+non2 = np.pad(non2,((0,0),(5,0)),'constant',constant_values=0)
+combined_data = np.concatenate((combined_data,non2),axis=0)
+print(combined_data)
+6. 最终输出：
+ - 打印清洗后的 user_data 前5行；
+ - 打印会员总消费均值、非会员总消费均值；
+ - 打印总消费最高的用户数据；
+ - 打印所有用户的佣金总额前10名。
