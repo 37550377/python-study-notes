@@ -1,0 +1,143 @@
+MySQL数据库语法
+库 -- 表 -- 数据
+# 结构
+1、基础语法
+大小写不敏感
+-- 注释
+# 注释
+多行注释
+/* 注
+释
+*/
+2、DDL-库管理
+show databases;
+# 查看数据库
+use 库名称;
+# 使用数据库
+create database 数据库名称 [charset utf8];
+# 创建数据库，[]内容可写可不写
+select database();
+# 查看当前使用的数据库
+drop database 数据库名称;
+# 删除数据库
+
+3、关于表的操作
+use world;
+# 首先打开一个数据库
+show tables;
+# 查看有哪些表
+create table 表名称(
+    数据名 类型1,
+    数据名 类型2,
+    ......
+);
+# 创建一个表
+drop table 表名称;
+drop table if 表名称;
+# 删除表
+
+4、数据类型有
+int 数字
+float 浮点数
+varchar(长度,最多255) 文本，长度是数字 == str
+date 日期类型
+timestamp 时间戳类型
+
+5、向表的列添加values
+show databases;
+# 展示所拥有的库
+use world;
+# 使用world库
+insert into 表名称(id) values(1), (2), (3);
+# 向表的id列添加values(1), (2), (3)
+insert into student(id, age, name) values(4, 18, '王二'),(5, 18, '周杰伦');
+# 向表的id，age, name列添加values(4, 18, '王二'),(5, 18, '周杰伦')
+insert into student(age, name) values(18, '王二'),(18, '周杰伦');
+insert into student values(18, '王二'),(18, '周杰伦');
+
+6、-- 向student添加数据顺序传参
+show databases;
+use world;
+insert into student(id) values(1), (2), (3);
+-- 向student id列添加数据1，2，3
+insert into student(id, age, name) values(4, 18, '王二'),(5, 19, '周杰伦');
+-- 向student添加数据顺序传参
+insert into student(age, name) values(18, '王二'),(18, '周杰伦');
+-- 向student添加数据顺序传参
+insert into student values(5,18, '王二'),(6,18, '周杰伦');
+-- 向student添加数据顺序传参 == insert into student(id, age, name) values(5, 18, '王二'),(6, 18, '周杰伦')
+delete from student  where id > 4;
+-- 删除id大于4的行      = > < != <= >= ......
+delete from student  where age >= 18;
+-- 删除age大于18的行
+delete from student;
+-- 清空列表
+update student set name='李白' where age = 19
+-- 修改表；将age=19的行name替换成'李白'(输入文本类型只能用单引号)
+
+7、-- 输出表的列
+use world;
+select age from student;
+-- 输出student的age列
+select id,age from student;
+-- 输出student的id和age列
+select * from student;
+-- 输出student的所有列
+select * from student where age > 18
+-- 输出student表age>18的所有行
+
+8、函数控制
+use world;
+insert into students(id, name, age, grend) values (1,'bob',18,'男'),(1,'cat',21,'女'),(1,'dvd',30,'女'),(1,'box',14,'男');
+select grend,avg(age) from students where grend='男';
+-- group by出现的内容，和除函数外内容在select唯一出现内容
+-- 对students的grend的列等于男的项，求它的年龄平均指
+-- avg（）函数求平均值，sum（）求和，min（）最小值，max（）最大值，count（）求数量
+select grend,avg(age) from students group by grend:
+-- 对students表，根据grend分组，求age的平均值，并将grend列和求完平均数的age列打印
+
+9、打印表内容
+use world;
+select * from students where age>15 order by age asc;
+-- 打印students表根据age>15，升序排序
+select * from students where age>15 order by age desc;
+-- 打印students表根据age>15，降序排序
+select * from students limit 2,1
+-- limit n,m用来控制从第n行开始打印m行
+-- 执行顺序from -> where -> group by -> select -> order by -> limit 
+
+10、在python中写mysql代码
+from pymysql import Connect
+# 调用pymysql库
+conn = Connect(
+    host='localhost',
+    # 连接设备名称，"localhost"表示使用本机
+    port=3306,
+    # 连接端口默认为3306
+    user='root',
+    # 密码类型是root
+    password='密码',
+    密码是'密码'
+    autocommit=True
+    自动提交，确认
+)
+print(conn.get_server_info())
+# 查看是否连接mysql库
+cursor = conn.cursor()
+# 设置游标对象
+conn.select_db('world')
+# 游标对象使用的库
+#cursor.execute('create table test_pymysql(id int);')
+# 创建一个test_pymysql的列表
+cursor.execute("select * from students")
+# 查询这个表的内容
+result:tuple = cursor.fetchall()
+# 接收查询结果，以元组的形式反回
+for x in result:
+    print(x)
+cursor.execute("insert into students values(1,'cca',52,'女')")
+# 向students表添加数据
+conn.commit()
+# 确认写入
+conn.close()
+# 关闭数据库
