@@ -141,3 +141,423 @@ conn.commit()
 # 确认写入
 conn.close()
 # 关闭数据库
+
+
+sql
+注释
+单行
+-- 注释
+
+多行
+/*多行注释*/
+
+查询
+查询所有库
+show databases;
+
+查询当前数据库
+select databases();
+
+使用
+use 数据库名;
+
+使用表
+show tables;
+
+create table 表名(
+字段1 类型 comment 注释,
+字段2 类型 comment 注释,
+字段3 类型 comment 注释,
+)
+
+查询表结构
+desc 表名;
+返回columns，类型，是否非空
+
+查询指定表的建表语句
+show create table 表名;
+返回表的创建语句
+
+创建数据库
+if not exists 有数据库就不执行/可省略
+default charset指定编辑语言/可省略
+一般不用utf8因为默认存储3个字节，utf8mb4四个字节
+create database if not exists数据库名 default charset gbk;
+
+删除库
+if exists如果不存在就不删除
+drop databases if exists数据库名;
+
+
+
+sql存储的数据类型有哪些
+类型	字节	取值范围	用途
+整数类型
+int	4	-21亿，21亿	普通id,数量，次数
+bigint	8	极大数	大id
+tinyint	1	-128，127	状态、0/1、开关
+浮点数类型
+decimal(m,n)	不定	精确小数	金额、价格
+float	4	近似小数	统计指标
+字符串类型
+varchar(n)	变长		姓名、手机号、订单号
+text	变长		备注、描述、长文本
+日期类型
+date	3		日期
+datetime	8		日期+时间
+其他类型了解
+smallint	2	-3w，3w	年龄、小数量
+char(n)	定长	固定长度字符串	很少用
+time	3	只存时间	12:30:00
+year	1	只存年	2026
+enum	变长	枚举固定值	只能选择的固定值
+
+unsigned无符号,只存正数，是取值范围合并-128+127=255
+create table ccd(
+age tinyint unsigned)
+
+DQL
+data query language
+
+select 字段列表 from 表名列表 基础查询
+where 条件查询
+分组查询
+group by 
+having
+order by
+排序查询
+limit分页查询
+
+基础查询
+select 列名1，列名2 from 表名;
+查整个表
+select * from 表名;
+重命名查询
+select 列名 as ‘别名’ from 表名;
+查询返回去重内容
+select distinct 字段列表 from 表名;
+
+条件筛选
+select 字段列表 from 表名 where 条件筛选;
+条件
+>		or	或者
+<		and	并且
+=		between...and	取范围之间的值
+>=		in(...)	在in列表里的值
+<>/!=		is null	是null
+<=		like _或者%	简单正则
+		not	不是，可以加组合语句
+between ‘a’ and ‘m’;数字正常比，字符串比unicode，循环对比
+apple和zoo比，z比a大，zoo大
+apple，activate 比，a相同，p比c大，apple大以此类推
+like ‘张_’代表只能匹配张某，俩字，’张__’就是三个字
+like ‘%三%’ 代表，前面不定长，后面不定长，匹配三
+like ‘%张’ 前面任意字符，以张结尾
+in(‘名称’,’名称’)
+not 相当于取反
+例题
+-- 查询淘宝平台的订单
+select * from lianxi1 where channel = '淘宝';
+-- 查询销售额大于100的订单
+select * from lianxi1 where sales > 100;
+-- 查询数量小于3的订单
+select * from lianxi1 where quantity < 3;
+-- 查询渠道不等于抖音的订单
+select * from lianxi1 where channel <> ‘抖音’;
+-- 查询品类不等于服装的订单
+select *from lianxi1 where category != ‘服装’;
+-- 查询销售额大于100并且利润大于20的订单
+select * from lianxi1 where sales > 100 and profit > 20;
+-- 查询品类等于电子产品并且渠道等于淘宝的订单
+select * from lianxi1 where category = ‘电子产品’ 
+and channel = "淘宝";
+
+聚合查询
+count统计数量
+count(*)是统计所有行，count(age)统计age不为null的行
+avg平均值    sum求和
+max最大值                min最小值
+select count(列名) from 表名;
+将这一列统计数量
+select sum(age) from 表名 where class=’三班’;
+将三班的年龄求和，只含数字
+和透视表的区别
+df.pivot_table(index=’三班’,
+columns=’age和’,values=’age’,aggfunc=’sum’)
+透视表有两个维度
+
+分组查询
+select 列名,聚合函数 from 表名
+ where 分组前过滤条件 
+group by 列名
+ having 分组后过滤条件，只针对group by的筛选，比如按班级分求平均数，那么having只能是筛选出。。。的班级
+按班级分组，求成绩大于60的人平均分，筛选只要平均分大于80的班级
+select class,avg(成绩) from 表名 where 成绩 > 60 group by class having avg(成绩)>80;
+count补充
+having count(case when score > 80 then 1 end) > count(*)*0.5
+保留score > 80的人多于全班人数的0.5的班级
+case when .... then *** end是如果....就...
+如果score >80 ,值为1，其他行循环完后就是null ，由于count只统计非空行，所以翻译为只取score>80的班级
+
+真实场景
+你帮我统计一下每个班的情况，
+先把那些成绩实在不行的人排除掉，
+然后在剩下的人里，看看每个班高分的人多不多。
+我只要那些高分人数占比不算低、而且整体平均分也还行的班级。
+成绩<60,
+select class,count(*),avg(score),
+sum(case when score >= 80 then 1 else 0 end) from order where score > 60
+group by class
+having 
+avg(score) > 60 and
+ sum(case when score>=80 then 1 else 0 end)/count(*) >= 0.3
+
+易错点
+select
+class,
+name,
+sum(score)
+from student
+group by class
+报错，非聚合函数必须要写到group by后面,group by class,name
+先按班级分组，再按班级分组，因为班级分组计算sum只有一行，name可能存在50行，拼表没有合并单元格功能会报错
+pandas同理
+df.groupby(‘class’).agg({‘score’:’sum’,’name’:’first’})强制保留一行name接收，想接收所有名字必须groupby(‘class’,’name’)
+
+排序查询
+select ** from 表名 order by 字段1 排列方式1,字段2 排列方式2
+asc升序desc降序
+select ** from 表名 order by age asc ,score desc;
+按照年龄升序，再按照score降序
+select ** from 表名 limit 下标起始，查询数
+执行顺序
+from where group by having order by limit select
+
+函数部分
+函数一般采用向量化理解循环性操作
+字符串函数
+concat(s1,s2,s3.....)
+字符串拼接，强制拼到一块
+lower(str)全小写
+upper(str)全大写
+lpad(str,n,pad)左填充,达n个字符串长度
+rpad(str,n,pad)右填充，达n个字符串长度
+trim(str)去掉字符串两边空格strip
+substring(str,start,len)返回从字符串str从start位置起的len个长度的字符串
+start是从1开始，不是下标0
+
+数值函数
+ceil(x)向上取整
+floor(x)向下取整
+mod(x,y)返回x,y的模，模运算不是算模长取的是余数
+7/3余1，
+-7/3=-2....(-1),,,,-2*3+(-1) = 7
+数学层面向大取,模=a-b*(a/b向大取数)
+-7/3 = -2.33333
+-7-3*(-2)=-1
+rand()返回0-1之间随机小数
+round(num,m)对num保留m位小数
+输出验证码六位数
+select lpad(round(rand()*1000000,0),6,0)
+左填充宽度为6，空位填0，生成0-1随机数之间*1000000，保留整数部分
+
+日期函数
+curdate()当前日期
+curtime()当前时间
+now()当前日期和时间
+year(date)返回年
+month(date)返回月
+day(date)返回日
+date_add(date,interval n year/month/day)在此日期上加数值
+datediff(date1,date2)计算中间天数 21日到23日是两天，算的间隔不是自然日
+
+流程函数
+if(value,t,f)value为真返回t否则返回f
+ifnull(value1,value2)value为空返回备用值，不为空返回本身
+case when val1 then res1 else res2 end
+如果val1为真返回res1，否则返回res2 ，end结束语句
+case x when val1 then res1 else res2 end
+如果 x=val1 返回res1 否则返回res2
+查询emp表的员工姓名和工作地址(北京上海--一线城市)
+select
+name,
+case workaddress when ‘北京’ then ‘一线城市’ when ‘上海’ then ‘一线城市’ else ‘二线城市’ end
+第二种写法case work... when in(‘北京’,’上海’) then ‘一线城市’......
+from emp;
+
+
+多表查询
+子父之间join，班级和学生之间，一对一也适用，学生信息表和成绩表
+班级表class_id 学生表class_id 一对多但是有同意行
+学生信息student_id 学生成绩 都有student_id
+
+多对多
+一个表作为中间索引有1表id和2表id
+s.name 学生名
+c.course_name 课程名
+from students 中间表
+inner join student_course as sc 
+on s.student_id = sc.student_id
+inner join course c
+on sc.course_id = c.course_id
+
+在sql和pandas里都会出现笛卡尔积
+id	name	age
+1	zzf	17
+2	ggh	18
+name	id	score	class
+zzf	1	77	chinese
+ggh	2	55	english
+
+两表无论是join还是pandas的merge拼接都有可能出现笛卡尔积
+id	name	age	name	id	score	class
+1	zzf	17	zzf	1	77	chinese
+1	zzf	17	ggh	2	55	english
+2	ggh	18	zzf	1	77	chinese
+2	ggh	18	ggh	2	55	english
+前面行看作a1a2，b表看作b1b2
+当on的列完全一致唯一，比如两边id列都是1，1，1....无其他值，不能将它识别为整体，出现笛卡尔积
+当on未正常写时会出现笛卡尔积
+即a1b1   a2b2
+
+内连接
+select
+e.name as name,
+e.age as age,
+d.dept as dept,
+from emp e
+inner join dept_table d
+on e.id=d.id;
+
+select
+e.name,
+e.age,
+d.dept
+from emp e,dept d
+where e.id = d.id;
+两种写法第二种仅作了解不专业老写法
+inner就是左边id集合和右边id集合取交集
+
+
+外连接
+select
+e.name,
+e.age,
+d.dept
+from emp e
+left/right/full outer join dept_table;
+左表全要，左有右没有，匹配不上null填充
+右表全要，右有左没有，匹配不上null填充
+两表全要，左有右没有，右有左没有，匹配不上null填充
+id	name	age
+1	zz	17
+1	zz	17
+3	gg	18
+id	name	class
+1	zz	english
+3	gg	chinese
+3	gg	english
+
+
+自连接
+自己连接自己
+select
+e1.name,
+e2.name
+from emp e1
+left join emp e2
+on e1.manager_id = e2.id
+
+联合查询
+select * from emp where salary > 5000
+union [all]
+select * from emp where age < 30;
+
+符合薪资大于5000的人
+拼接
+年龄小于30的人
+对比where salary > 5000 or age < 30;信息可能会交错不像上面分开
+union all是全拼直接拼接类似于concat
+union是去重，比如年龄薪资都符合条件的人只保留一个，跑得慢
+
+子查询
+标量子查询
+本质就是外层where后内容和后select后内容的关系取值
+取一个值作为条件去where另一个select
+select name from emp
+where dept_id = (select dept_id from dept_table where dept_name = ‘销售部’) # 比如对应1只有单值
+
+列子查询
+select name,dept_id from emp
+where dept_id in (select dept_id from dept_table where dept_name = ‘销售部’ or dept_name = ‘技术部’)#返回两个值销售部id和技术部id
+
+行子查询
+select name,dept_id,salary from emp
+where (dept_id,salary) in (select dept_id,1500 from dept_table
+where dept_name = ‘销售部’ # (1,1500)
+
+表子查询
+select name,dept_id,salary from emp
+where (dept_id,salary) in (select dept_id,1500 from dept_table
+where dept_name in ( ‘销售部’,’技术部’) # (1,1500),(2,1500)
+
+
+相关子查询exists
+user_id:user_id,name
+order:order_id,user_id,order_time
+
+2025年下过单的用户信息
+join格式
+select * from user_id u 
+left join order o 
+on u.user_id = o.user_id and year(order_time)=2025
+where 必须写在on里，因为左表有用户无订单
+where year(order_time)=2025就筛掉订单空行等价于inner join
+所有外接表不能where外表条件，变成innerjoin符合条件的行被筛除，主表条件不能写到on里面，右表信息显示为空，不符合where过滤行逻辑，不报错逻辑疏漏。
+e.id	e.name	d.id	d.name
+1	z	1	销售
+1	f	2	技术
+对齐以后
+e.id	e.name	d.id	d.name
+1	z	1	销售
+1	f	1	销售
+
+e.id=1 和 d.id=1 → 等于 → 拼
+e.id=1 和 d.id=2 → 不等 → 不拼
+e.id=1 和 d.id=3 → 不等 → 不拼
+
+exists格式
+select * from user_id u
+where exists(select 1 
+from order o 
+where u.user_id=o.user_id ,year(o.order_time)=2025)逐行取数
+2025年未下单用户
+join格式
+select * from user_id u 
+left join order o 
+on u.user_id = o.user_id and o.order_time is null
+exists格式
+select * from user_id u
+where not exists(select 1 
+from order o 
+where u.user_id=o.user_id ,year(o.order_time)=2025)
+
+补充
+非聚合数据类型必须写在group by后面
+select name,max(salary) from emp group by class <-错误写法
+select name,max(salary) from emp group by class,name 
+
+训练题
+1.查询员工的姓名，年龄，职位，部门信息。
+select e.name,e.age,e.job,d.dept from emp e
+left join dept d on e.dept_id = d.id
+2.查询年龄小于30岁的员工姓名，年龄，职位，部门信息。
+select select e.name,e.age,e.job,d.dept from emp e
+left join dept d on e.dept_id = d.id where e.age < 30
+3.查询拥有员工的部门ID，部门名称。
+select dept_id,dept_name from dept 
+4。查询所有年龄大于40岁的员工，及其归属的部门名称；如果员工没有分配部门，也需要展示出来。5。查询所有员工的工资等级。
+6。查询"研发部"所有员工的信息及工资等级。7。查询"研发部"员工的平均工资。8。查询工资比"灭绝"高的员工信息。
+9. 查询比平均薪资高的员工信息。
+10。查询低于本部门平均工资的员工信息。
+11。查询所有的部门信息，并统计部门的员工人数。
